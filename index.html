@@ -201,7 +201,7 @@
   .hl-item p{color:var(--muted);font-size:.93rem;line-height:1.6}
   .hl-item p b{color:var(--text);font-weight:600}
   .hl-item p .g{color:var(--accent);font-weight:600;font-family:var(--mono);font-size:.9em}
-  @media(max-width:1100px){.role-wrap{grid-template-columns:.75fr 1.25fr}.hl{grid-template-columns:1fr}}
+  @media(min-width:901px) and (max-width:1100px){.role-wrap{grid-template-columns:.75fr 1.25fr}.hl{grid-template-columns:1fr}}
 
   /* GRID + CARDS */
   .grid{display:grid;gap:20px}
@@ -371,11 +371,12 @@
   .strip{margin-top:68px;background:rgba(5,8,11,.74);border-color:rgba(255,255,255,.08)}
   .st{padding:30px 12px;text-align:left}.st .n{font-size:clamp(2rem,3vw,3rem);line-height:1}.st .l{font-size:9px;letter-spacing:1px}.st .n .u{font-size:.35em;letter-spacing:.4px}
   .capability-tape{border-bottom:1px solid var(--border);overflow:hidden;background:var(--accent);color:#07110a;transform:rotate(-1deg) scale(1.02);margin-top:17px}
-  .capability-tape>div{width:max-content;display:flex;align-items:center;gap:25px;padding:8px 0;font:700 10px/1 var(--mono);letter-spacing:1.8px;animation:tapeMove 26s linear infinite}.capability-tape i{font-style:normal;font-size:8px}
+  .tape-track{width:max-content;display:flex;align-items:center;padding:8px 0;font:700 10px/1 var(--mono);letter-spacing:1.8px;animation:tapeMove 26s linear infinite}
+  .tape-set{display:flex;align-items:center;gap:25px;padding-right:25px;flex:none}.capability-tape i{font-style:normal;font-size:8px}
   @keyframes tapeMove{to{transform:translateX(-50%)}}
 
   /* EDITORIAL SECTIONS */
-  main>section:not(.hero){padding:132px 0;overflow:hidden}
+  main>section:not(.hero){padding:132px 0;overflow:hidden;scroll-margin-top:64px}
   #expertise,#stack{background:linear-gradient(180deg,rgba(255,255,255,.015),transparent)!important}
   #poste::before,#expertise::before,#preuves::before,#stack::before,#parcours::before{position:absolute;right:-.02em;top:30px;font:700 clamp(9rem,22vw,22rem)/.8 var(--display);letter-spacing:-1.5rem;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.035);pointer-events:none}
   #poste::before{content:"00"}#expertise::before{content:"01"}#preuves::before{content:"02"}#stack::before{content:"03"}#parcours::before{content:"04"}
@@ -410,9 +411,9 @@
   .contact-box p{max-width:610px}
 
   @media(max-width:1080px){.hero>.wrap{padding:0 28px}.hero-grid{grid-template-columns:1fr 470px;gap:32px}.hero h1.hero-name{font-size:clamp(4rem,8vw,6.5rem)}}
-  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;min-height:auto}.hero{padding-top:64px}.security-orbit{margin:35px auto 0;max-width:590px}.orbit-caption{margin-top:-18px}.projects-grid .proj,.projects-grid .proj:nth-child(n){grid-column:span 12}.capability-tape{margin-top:10px}main>section:not(.hero){padding:95px 0}}
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;min-height:auto}.hero{padding-top:64px}.security-orbit{margin:35px auto 0;max-width:590px}.orbit-caption{margin-top:-18px}.role-wrap{grid-template-columns:minmax(0,1fr);gap:24px}.role-card,.hl{width:100%;min-width:0}.hl{grid-template-columns:minmax(0,1fr)}.projects-grid .proj,.projects-grid .proj:nth-child(n){grid-column:span 12}.capability-tape{margin-top:10px}main>section:not(.hero){padding:95px 0}}
   @media(max-width:640px){.wrap,.hero>.wrap{padding:0 18px}.hero h1.hero-name{font-size:clamp(3rem,14vw,4.2rem);letter-spacing:-4px}.hero h1.hero-name::after{height:4px;margin-top:13px}.hero-claim{font-size:1.8rem}.security-orbit{width:calc(100% + 16px);margin-left:-8px}.orbit-map{padding:26px}.orbit-data{transform:scale(.84)}.data-a{left:3%}.data-b{right:2%}.core-signature{width:82px;height:82px}.core-signature span{font-size:2.8rem}.orbit-caption{width:92%;font-size:11px}.strip{margin-top:48px}.st{padding:23px 8px}.capability-tape>div{animation-duration:18s}h2.sec{letter-spacing:-1.8px}.project-tools{align-items:flex-start;flex-direction:column}.proj-head{flex-direction:column-reverse}.proj-cat{align-self:flex-start}.projects-grid .proj{padding:24px;min-height:auto}.proj h3{max-width:100%}.project-index{font-size:5rem}.contact-box{padding:62px 20px}.contact-box h2{letter-spacing:-2px}.nav-in{height:62px}.brand span{font-size:14px}.lang button{padding:7px 8px}}
-  @media(prefers-reduced-motion:reduce){.orbit-halo,.scan-arm,.orbit-node circle,.orbit-pulse,.capability-tape>div{animation:none}.security-orbit{transform:none!important}}
+  @media(prefers-reduced-motion:reduce){.orbit-halo,.scan-arm,.orbit-node circle,.orbit-pulse,.tape-track{animation:none}.security-orbit{transform:none!important}}
 </style>
 </head>
 <body>
@@ -518,7 +519,12 @@
       <div class="st"><div class="n">2 <span class="u">frameworks</span></div><div class="l" data-i18n="stat.4">Sécurité open-source</div></div>
     </div>
   </div>
-  <div class="capability-tape" aria-hidden="true"><div><span>APPSEC</span><i>✦</i><span>DEVSECOPS</span><i>✦</i><span>OFFENSIVE SECURITY</span><i>✦</i><span>SMART CONTRACTS</span><i>✦</i><span>PRODUCTION HARDENING</span><i>✦</i><span>APPSEC</span><i>✦</i><span>DEVSECOPS</span><i>✦</i><span>OFFENSIVE SECURITY</span><i>✦</i></div></div>
+  <div class="capability-tape" aria-hidden="true">
+    <div class="tape-track">
+      <div class="tape-set"><span>APPSEC</span><i>✦</i><span>DEVSECOPS</span><i>✦</i><span>OFFENSIVE SECURITY</span><i>✦</i><span>SMART CONTRACTS</span><i>✦</i><span>PRODUCTION HARDENING</span><i>✦</i></div>
+      <div class="tape-set"><span>APPSEC</span><i>✦</i><span>DEVSECOPS</span><i>✦</i><span>OFFENSIVE SECURITY</span><i>✦</i><span>SMART CONTRACTS</span><i>✦</i><span>PRODUCTION HARDENING</span><i>✦</i></div>
+    </div>
+  </div>
 </section>
 
 <!-- POSTE ACTUEL -->
