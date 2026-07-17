@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alessandro Gagliardi — DevSecOps &amp; Expert Cybersécurité</title>
+<meta name="description" content="Alessandro Gagliardi — DevSecOps &amp; expert en cybersécurité offensive et défensive. Audits applicatifs OWASP, pentest, hardening d'infrastructures, audit de smart contracts, frameworks open-source.">
+<meta name="author" content="Alessandro Gagliardi">
+<meta name="color-scheme" content="dark">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Alessandro Gagliardi — DevSecOps &amp; Expert Cybersécurité">
+<meta property="og:description" content="Sécurité offensive &amp; défensive sur infrastructures de production. Audits OWASP, pentest, hardening, audit de smart contracts.">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0d12'/%3E%3Cpath d='M50 14l26 10v20c0 18-11 30-26 38-15-8-26-20-26-38V24z' fill='none' stroke='%234ade80' stroke-width='6' stroke-linejoin='round'/%3E%3Cpath d='M38 50l9 9 17-19' fill='none' stroke='%234ade80' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Alessandro Gagliardi",
+  "alternateName": "Pazificateur",
+  "jobTitle": "DevSecOps & Ingénieur Sécurité",
+  "description": "Expert en cybersécurité offensive et défensive : audits applicatifs OWASP, pentest, hardening d'infrastructures, audit de smart contracts.",
+  "knowsAbout": ["Cybersécurité", "DevSecOps", "Pentest", "OWASP Top 10", "Audit de sécurité", "Hardening Linux", "Smart Contract Audit", "MITRE ATT&CK", "RGPD"],
+  "url": "https://pazificateur69.github.io",
+  "sameAs": ["https://github.com/Pazificateur69"],
+  "knowsLanguage": ["fr", "en", "it"],
+  "address": { "@type": "PostalAddress", "addressRegion": "Lyon", "addressCountry": "FR" }
+}
+</script>
+<style>
+  :root{
+    --bg:#0a0d12; --bg-2:#0d1119; --surface:#12161f; --surface-2:#151b26;
+    --border:#1e2532; --border-2:#2a3242;
+    --text:#e7edf5; --muted:#93a0b4; --muted-2:#657085;
+    --accent:#4ade80; --accent-dim:#2fa563; --accent-glow:rgba(74,222,128,.14);
+    --cyan:#38bdf8;
+    --crit:#f2555a; --high:#ff8a3d; --med:#f4c430; --low:#5ed497;
+    --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+    --sans:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    --display:'Space Grotesk','Inter',system-ui,sans-serif;
+    --maxw:1140px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--sans);
+    line-height:1.65; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+    font-size:16px;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+    background:
+      radial-gradient(900px 500px at 82% -8%, rgba(56,189,248,.08), transparent 60%),
+      radial-gradient(1000px 600px at 8% 0%, var(--accent-glow), transparent 55%),
+      linear-gradient(180deg,#0a0d12 0%, #0a0d12 40%, #090c11 100%);
+  }
+  body::after{
+    content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.5;
+    background-image:linear-gradient(rgba(120,140,170,.035) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(120,140,170,.035) 1px,transparent 1px);
+    background-size:52px 52px;
+    -webkit-mask-image:radial-gradient(circle at 50% 12%,#000,transparent 78%);
+    mask-image:radial-gradient(circle at 50% 12%,#000,transparent 78%);
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .mono{font-family:var(--mono)}
+  .accent{color:var(--accent)}
+
+  /* NAV */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    background:rgba(10,13,18,.72);border-bottom:1px solid var(--border);
+  }
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--display);font-weight:600;letter-spacing:.2px}
+  .brand .logo{width:26px;height:26px;flex:none}
+  .brand b{font-weight:700}
+  .brand span{color:var(--muted);font-weight:400}
+  nav.links{display:flex;gap:6px;align-items:center}
+  nav.links a{
+    font-family:var(--mono);font-size:13px;color:var(--muted);
+    padding:8px 12px;border-radius:8px;transition:.18s;
+  }
+  nav.links a:hover{color:var(--text);background:var(--surface)}
+  nav.links a.cta{
+    color:var(--accent);border:1px solid var(--border-2);
+  }
+  nav.links a.cta:hover{background:var(--accent-glow);border-color:var(--accent-dim)}
+  .burger{display:none;background:none;border:1px solid var(--border-2);border-radius:8px;color:var(--text);padding:7px 10px;cursor:pointer;font-family:var(--mono);font-size:13px}
+  @media(max-width:820px){
+    nav.links{display:none}
+    nav.links.open{
+      display:flex;position:absolute;top:64px;left:0;right:0;flex-direction:column;
+      gap:2px;padding:14px;background:rgba(10,13,18,.97);border-bottom:1px solid var(--border);
+    }
+    nav.links.open a{padding:11px 12px}
+    .burger{display:block}
+  }
+
+  /* SECTION SCAFFOLD */
+  section{padding:96px 0;position:relative}
+  @media(max-width:640px){section{padding:68px 0}}
+  .kicker{
+    font-family:var(--mono);font-size:13px;color:var(--accent);
+    display:inline-flex;align-items:center;gap:9px;margin-bottom:16px;letter-spacing:.4px;
+  }
+  .kicker::before{content:"";width:22px;height:1px;background:var(--accent);opacity:.7}
+  h2.sec{font-family:var(--display);font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:600;letter-spacing:-.5px;line-height:1.12}
+  .sec-lead{color:var(--muted);max-width:640px;margin-top:14px;font-size:1.02rem}
+
+  /* HERO */
+  .hero{padding:104px 0 84px;position:relative}
+  .hero .status{
+    display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12.5px;
+    color:var(--muted);border:1px solid var(--border-2);border-radius:100px;padding:6px 14px;margin-bottom:26px;
+    background:rgba(18,22,31,.6);
+  }
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 var(--accent-glow);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}70%{box-shadow:0 0 0 9px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
+  @media (prefers-reduced-motion:reduce){.dot{animation:none}}
+  .hero h1{
+    font-family:var(--display);font-weight:700;letter-spacing:-1.4px;
+    font-size:clamp(2.5rem,6.4vw,4.6rem);line-height:1.02;margin-bottom:10px;
+  }
+  .hero h1 .grad{
+    background:linear-gradient(100deg,#e7edf5 10%,#4ade80 55%,#38bdf8 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .hero .role{font-family:var(--mono);color:var(--accent);font-size:clamp(.95rem,2.2vw,1.18rem);margin-bottom:22px;letter-spacing:.3px}
+  .hero .role .sep{color:var(--muted-2)}
+  .hero p.lead{font-size:1.12rem;color:var(--muted);max-width:610px;margin-bottom:34px}
+  .hero p.lead strong{color:var(--text);font-weight:600}
+  .btns{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{
+    font-family:var(--mono);font-size:14px;font-weight:500;padding:13px 22px;border-radius:10px;
+    display:inline-flex;align-items:center;gap:9px;transition:.2s;cursor:pointer;border:1px solid transparent;
+  }
+  .btn.primary{background:var(--accent);color:#06210f;font-weight:600}
+  .btn.primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px rgba(74,222,128,.5)}
+  .btn.ghost{border-color:var(--border-2);color:var(--text);background:rgba(18,22,31,.5)}
+  .btn.ghost:hover{border-color:var(--accent-dim);color:var(--accent);transform:translateY(-2px)}
+
+  /* HERO STATS */
+  .hero-stats{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:60px;
+    border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--border);
+  }
+  @media(max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+  .hstat{background:var(--surface);padding:22px 20px}
+  .hstat .n{font-family:var(--display);font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:700;color:var(--text);letter-spacing:-.5px}
+  .hstat .n .u{color:var(--accent);font-size:.65em}
+  .hstat .l{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:5px;text-transform:uppercase;letter-spacing:.6px}
+
+  /* GENERIC CARD GRID */
+  .grid{display:grid;gap:20px}
+  .g-2{grid-template-columns:repeat(2,1fr)}
+  .g-3{grid-template-columns:repeat(3,1fr)}
+  .g-4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:900px){.g-3,.g-4{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:620px){.g-2,.g-3,.g-4{grid-template-columns:1fr}}
+  .card{
+    background:linear-gradient(180deg,var(--surface),var(--bg-2));
+    border:1px solid var(--border);border-radius:16px;padding:26px;transition:.25s;position:relative;overflow:hidden;
+  }
+  .card:hover{border-color:var(--border-2);transform:translateY(-3px)}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:34px;align-items:start}
+  @media(max-width:860px){.about-grid{grid-template-columns:1fr;gap:26px}}
+  .about-body p{color:var(--muted);margin-bottom:18px;font-size:1.05rem}
+  .about-body p strong{color:var(--text);font-weight:600}
+  .about-body .hl{color:var(--accent);font-weight:500}
+  .panel{
+    background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;
+  }
+  .panel h4{font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+  .kv{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px dashed var(--border);font-size:14px}
+  .kv:last-child{border-bottom:none}
+  .kv .k{color:var(--muted-2);font-family:var(--mono);font-size:12.5px}
+  .kv .v{color:var(--text);text-align:right;font-weight:500}
+  .kv .v small{color:var(--accent);font-family:var(--mono);font-size:11px}
+
+  /* EXPERTISE */
+  .exp-card .ico{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:var(--accent-glow);border:1px solid var(--border-2);margin-bottom:16px}
+  .exp-card .ico svg{width:22px;height:22px;stroke:var(--accent);fill:none;stroke-width:1.9}
+  .exp-card h3{font-family:var(--display);font-size:1.18rem;font-weight:600;margin-bottom:9px}
+  .exp-card p{color:var(--muted);font-size:.95rem;margin-bottom:16px}
+  .tags{display:flex;flex-wrap:wrap;gap:7px}
+  .tag{font-family:var(--mono);font-size:11.5px;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:4px 9px}
+  .exp-card:hover .tag{border-color:var(--border-2)}
+
+  /* PROOF / CASE STUDIES */
+  .proj-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:6px}
+  .proj-cat{font-family:var(--mono);font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--cyan);border:1px solid var(--border-2);border-radius:6px;padding:3px 9px;white-space:nowrap}
+  .proj-cat.off{color:#ff8a3d}
+  .proj-cat.def{color:var(--accent)}
+  .proj-cat.web3{color:#c084fc}
+  .proj-cat.tool{color:#38bdf8}
+  .proj h3{font-family:var(--display);font-size:1.24rem;font-weight:600;margin:4px 0 4px;letter-spacing:-.3px}
+  .proj .ctx{color:var(--muted);font-size:.94rem;margin-bottom:16px}
+  .metrics{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:15px}
+  .metric{font-family:var(--mono);font-size:12px;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:6px 10px;color:var(--text)}
+  .metric b{color:var(--accent);font-weight:600}
+  .sev{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+  .badge{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;display:inline-flex;align-items:center;gap:6px}
+  .badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .b-crit{color:var(--crit);background:rgba(242,85,90,.1);border:1px solid rgba(242,85,90,.25)}
+  .b-high{color:var(--high);background:rgba(255,138,61,.1);border:1px solid rgba(255,138,61,.25)}
+  .b-med{color:var(--med);background:rgba(244,196,48,.1);border:1px solid rgba(244,196,48,.22)}
+  .b-low{color:var(--low);background:rgba(94,212,151,.1);border:1px solid rgba(94,212,151,.22)}
+  .proj .foot{display:flex;flex-wrap:wrap;gap:7px;padding-top:14px;border-top:1px solid var(--border)}
+  .disclaimer{
+    font-family:var(--mono);font-size:12px;color:var(--muted-2);
+    border:1px dashed var(--border-2);border-radius:10px;padding:12px 16px;margin-top:26px;
+    display:flex;gap:10px;align-items:flex-start;
+  }
+  .disclaimer svg{width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:1.8;flex:none;margin-top:2px}
+
+  /* STACK */
+  .stack-group{margin-bottom:26px}
+  .stack-group:last-child{margin-bottom:0}
+  .stack-group .gt{font-family:var(--mono);font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+  .stack-group .gt::after{content:"";flex:1;height:1px;background:var(--border)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{font-family:var(--mono);font-size:12.5px;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 12px;transition:.18s}
+  .chip:hover{color:var(--text);border-color:var(--accent-dim);transform:translateY(-2px)}
+
+  /* TIMELINE + EDU */
+  .path-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:start}
+  @media(max-width:860px){.path-grid{grid-template-columns:1fr;gap:34px}}
+  .tl{position:relative;padding-left:26px}
+  .tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--border-2)}
+  .tl-item{position:relative;padding-bottom:28px}
+  .tl-item:last-child{padding-bottom:0}
+  .tl-item::before{content:"";position:absolute;left:-24px;top:5px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+  .tl-item .when{font-family:var(--mono);font-size:11.5px;color:var(--accent);letter-spacing:.4px}
+  .tl-item h4{font-family:var(--display);font-size:1.06rem;font-weight:600;margin:5px 0 3px}
+  .tl-item .org{font-size:13.5px;color:var(--muted-2);font-family:var(--mono)}
+  .tl-item p{color:var(--muted);font-size:.92rem;margin-top:7px}
+  .edu-card{margin-bottom:14px}
+  .edu-card:last-child{margin-bottom:0}
+  .edu-card .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+  .edu-card h4{font-family:var(--display);font-size:1rem;font-weight:600}
+  .edu-card .yr{font-family:var(--mono);font-size:11px;color:var(--muted-2);white-space:nowrap}
+  .edu-card .sub{font-size:13px;color:var(--muted);margin-top:3px}
+  .pill{font-family:var(--mono);font-size:10.5px;padding:2px 8px;border-radius:20px;margin-top:9px;display:inline-block}
+  .pill.now{color:var(--med);background:rgba(244,196,48,.1);border:1px solid rgba(244,196,48,.25)}
+  .pill.done{color:var(--accent);background:var(--accent-glow);border:1px solid var(--border-2)}
+
+  /* CONTACT */
+  .contact-box{
+    background:linear-gradient(150deg,var(--surface),var(--bg-2));
+    border:1px solid var(--border);border-radius:22px;padding:48px 40px;text-align:center;position:relative;overflow:hidden;
+  }
+  .contact-box::before{content:"";position:absolute;inset:0;background:radial-gradient(500px 240px at 50% -10%,var(--accent-glow),transparent 70%);pointer-events:none}
+  .contact-box h2{font-family:var(--display);font-size:clamp(1.7rem,4vw,2.5rem);font-weight:600;letter-spacing:-.5px;position:relative}
+  .contact-box p{color:var(--muted);max-width:520px;margin:14px auto 30px;position:relative}
+  .contact-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--border);padding:34px 0;color:var(--muted-2)}
+  .foot-in{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:12.5px}
+  .foot-in a:hover{color:var(--accent)}
+
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top">
+      <svg class="logo" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#12161f" stroke="#1e2532"/><path d="M50 16l24 9v19c0 17-10 28-24 35-14-7-24-18-24-35V25z" fill="none" stroke="#4ade80" stroke-width="6" stroke-linejoin="round"/><path d="M39 50l8 8 15-17" fill="none" stroke="#4ade80" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span><b>Alessandro</b> Gagliardi</span>
+    </a>
+    <button class="burger mono" id="burger" aria-label="Menu">≡ menu</button>
+    <nav class="links" id="menu">
+      <a href="#expertise">Expertise</a>
+      <a href="#preuves">Réalisations</a>
+      <a href="#stack">Stack</a>
+      <a href="#parcours">Parcours</a>
+      <a class="cta" href="#contact">Contact →</a>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+<section class="hero">
+  <div class="wrap">
+    <div class="status reveal"><span class="dot"></span> Disponible — missions sécurité &amp; DevSecOps · Région lyonnaise / remote</div>
+    <h1 class="reveal">Je sécurise ce que<br><span class="grad">les autres déploient.</span></h1>
+    <div class="role mono reveal">DevSecOps <span class="sep">·</span> Pentest &amp; Audit <span class="sep">·</span> Sécurité applicative <span class="sep">·</span> Web3</div>
+    <p class="lead reveal">Ingénieur sécurité <strong>offensive et défensive</strong>, sur de vraies infrastructures de production — pas seulement en CTF. J'audite des applications selon <strong>OWASP</strong>, je durcis des serveurs et des SI, je chasse des vulnérabilités en bug bounty et j'audite des <strong>smart contracts</strong>. Chaque constat est documenté, scoré (CVSS/CWE) et corrigé.</p>
+    <div class="btns reveal">
+      <a class="btn primary" href="#preuves">Voir mes réalisations
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn ghost" href="#contact">Me contacter</a>
+    </div>
+
+    <div class="hero-stats reveal">
+      <div class="hstat"><div class="n">45<span class="u"> findings</span></div><div class="l">Audit applicatif complet</div></div>
+      <div class="hstat"><div class="n">2 <span class="u">HIGH</span></div><div class="l">Vulnérabilités en bug bounty</div></div>
+      <div class="hstat"><div class="n">9 <span class="u">CVE</span></div><div class="l">Patchées à chaud en prod</div></div>
+      <div class="hstat"><div class="n">2 <span class="u">frameworks</span></div><div class="l">Sécurité open-source</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="expertise">
+  <div class="wrap">
+    <div class="kicker mono reveal">01 — Domaines</div>
+    <h2 class="sec reveal">Une expertise sur toute la chaîne de sécurité</h2>
+    <p class="sec-lead reveal">De la recherche de vulnérabilités à la remédiation en production. Quatre domaines, une seule logique : comprendre l'attaque pour construire la défense.</p>
+
+    <div class="grid g-4" style="margin-top:44px">
+      <div class="card exp-card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2l7 4v6c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-5"/></svg></div>
+        <h3>Sécurité offensive</h3>
+        <p>Pentest web OWASP Top 10, bug bounty, exploitation, escalade de privilèges, écriture de PoC exécutables.</p>
+        <div class="tags">
+          <span class="tag">Burp Suite</span><span class="tag">Nmap</span><span class="tag">Metasploit</span><span class="tag">OWASP Top 10</span><span class="tag">CVSS / CWE</span><span class="tag">OSINT</span>
+        </div>
+      </div>
+      <div class="card exp-card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 6a15 15 0 0 0 8 3 15 15 0 0 0 8-3"/><path d="M4 6v6c0 5 4 8 8 10 4-2 8-5 8-10V6"/></svg></div>
+        <h3>Défense &amp; DevSecOps</h3>
+        <p>Hardening Linux, WAF/IDS-IPS, SIEM &amp; supervision, gestion des CVE, pipelines CI/CD sécurisés.</p>
+        <div class="tags">
+          <span class="tag">ModSecurity / CRS</span><span class="tag">Wazuh</span><span class="tag">CrowdSec</span><span class="tag">Suricata</span><span class="tag">Trivy</span><span class="tag">Lynis</span>
+        </div>
+      </div>
+      <div class="card exp-card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2l3 3-3 3-3-3z"/><path d="M12 8v8"/><path d="M7 13l5 5 5-5"/><rect x="5" y="18" width="14" height="3" rx="1"/></svg></div>
+        <h3>Audit Web3 &amp; Smart Contracts</h3>
+        <p>Revue de contrats Solidity / Rust, contests Code4rena, analyse statique, cryptographie post-quantique.</p>
+        <div class="tags">
+          <span class="tag">Slither</span><span class="tag">Foundry</span><span class="tag">Mythril</span><span class="tag">Echidna</span><span class="tag">Solidity</span><span class="tag">Rust</span>
+        </div>
+      </div>
+      <div class="card exp-card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/></svg></div>
+        <h3>Gouvernance &amp; Conformité</h3>
+        <p>Analyse de risques EBIOS RM, conformité RGPD, modélisation de menaces MITRE ATT&amp;CK, cryptographie appliquée.</p>
+        <div class="tags">
+          <span class="tag">RGPD</span><span class="tag">EBIOS RM</span><span class="tag">MITRE ATT&amp;CK</span><span class="tag">Threat Modeling</span><span class="tag">PKI / X.509</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="preuves">
+  <div class="wrap">
+    <div class="kicker mono reveal">02 — Preuves</div>
+    <h2 class="sec reveal">Des réalisations concrètes, documentées et scorées</h2>
+    <p class="sec-lead reveal">Une sélection de missions et projets réels. Les noms de clients et cibles sont volontairement anonymisés ; seuls les faits techniques et les métriques vérifiables sont exposés.</p>
+
+    <div class="grid g-2" style="margin-top:44px">
+
+      <!-- AUDIT APPLICATIF -->
+      <div class="card proj reveal">
+        <div class="proj-head">
+          <h3>Audit de sécurité applicatif full-stack</h3>
+          <span class="proj-cat off">Audit client</span>
+        </div>
+        <p class="ctx">Audit complet d'un éditeur SaaS mobile (back-end Laravel / PHP, front Angular-Ionic). Revue de code manuelle + analyse dynamique, avec rapport et devis de remédiation livrés.</p>
+        <div class="metrics">
+          <span class="metric"><b>45</b> vulnérabilités</span>
+          <span class="metric">Mapping <b>OWASP · CWE · CVSS</b></span>
+          <span class="metric">Note initiale <b>2 / 10</b></span>
+        </div>
+        <div class="sev">
+          <span class="badge b-crit">13 critiques</span>
+          <span class="badge b-high">17 élevées</span>
+          <span class="badge b-med">15 moyennes / faibles</span>
+        </div>
+        <div class="foot">
+          <span class="tag">Élévation de privilèges (mass assignment)</span><span class="tag">BOLA / IDOR</span><span class="tag">Secrets exposés</span><span class="tag">Chiffrage du risque RGPD</span>
+        </div>
+      </div>
+
+      <!-- HARDENING -->
+      <div class="card proj reveal">
+        <div class="proj-head">
+          <h3>Hardening d'un serveur de production</h3>
+          <span class="proj-cat def">Défense</span>
+        </div>
+        <p class="ctx">Audit de risques puis durcissement en profondeur d'un serveur Linux hébergeant des applications critiques : SSH, WAF, segmentation réseau, détection d'intrusion et gestion des vulnérabilités.</p>
+        <div class="metrics">
+          <span class="metric"><b>20</b> risques traités</span>
+          <span class="metric">Score Lynis <b>67 → 77</b></span>
+          <span class="metric"><b>9</b> CVE kernel patchées à chaud</span>
+          <span class="metric"><b>15 000+</b> IP bloquées</span>
+        </div>
+        <div class="foot">
+          <span class="tag">ModSecurity + OWASP CRS</span><span class="tag">CrowdSec / Fail2ban</span><span class="tag">Durcissement Docker</span><span class="tag">RGPD art. 32</span>
+        </div>
+      </div>
+
+      <!-- BUG BOUNTY TELECOM -->
+      <div class="card proj reveal">
+        <div class="proj-head">
+          <h3>Bug bounty — opérateur télécom</h3>
+          <span class="proj-cat off">Offensif</span>
+        </div>
+        <p class="ctx">Chasse coordonnée sur le périmètre d'un grand opérateur télécom (programme privé). Reconnaissance à grande échelle puis exploitation de deux failles à fort impact.</p>
+        <div class="metrics">
+          <span class="metric"><b>529</b> sous-domaines énumérés</span>
+          <span class="metric"><b>136</b> endpoints internes exposés</span>
+        </div>
+        <div class="sev">
+          <span class="badge b-high">2 findings HIGH — CVSS ~7.5</span>
+        </div>
+        <div class="foot">
+          <span class="tag">Exposition de spec OpenAPI/Swagger</span><span class="tag">Bypass d'authentification</span><span class="tag">subfinder / httpx</span><span class="tag">Analyse différentielle</span>
+        </div>
+      </div>
+
+      <!-- BUG BOUNTY FINTECH -->
+      <div class="card proj reveal">
+        <div class="proj-head">
+          <h3>Bug bounty — plateforme fintech</h3>
+          <span class="proj-cat off">Offensif</span>
+        </div>
+        <p class="ctx">Évaluation pré-authentification d'une fintech au périmètre bien durci. Démarche rigoureuse : les résultats négatifs sont documentés au même titre que les découvertes.</p>
+        <div class="metrics">
+          <span class="metric"><b>551</b> sous-domaines</span>
+          <span class="metric"><b>27 000+</b> URLs historiques</span>
+          <span class="metric"><b>5</b> findings + <b>6</b> négatifs documentés</span>
+        </div>
+        <div class="foot">
+          <span class="tag">Fuite d'infos (__NEXT_DATA__)</span><span class="tag">Analyse JS</span><span class="tag">SSRF / CORS / GraphQL testés</span><span class="tag">Jugement analytique</span>
+        </div>
+      </div>
+
+      <!-- T3MP3ST -->
+      <div class="card proj reveal">
+        <div class="proj-head">
+          <h3>T3MP3ST — framework offensif piloté par IA</h3>
+          <span class="proj-cat tool">Open-source</span>
+        </div>
+        <p class="ctx">Framework (TypeScript / Node) transformant un agent IA en chasseur de vulnérabilités : kill-chain à 8 opérateurs mappée sur MITRE ATT&amp;CK, War Room web, CLI, serveur MCP. Claims reproductibles via un harness de vérification.</p>
+        <div class="metrics">
+          <span class="metric">XBEN <b>90,1 %</b> pass@1</span>
+          <span class="metric">Cybench <b>23/40</b> sans indice</span>
+          <span class="metric">CVE-Zero <b>8/10</b> localisées</span>
+        </div>
+        <div class="foot">
+          <span class="tag">MITRE ATT&amp;CK</span><span class="tag">MCP</span><span class="tag">Containment de scope</span><span class="tag">Divulgation coordonnée</span><span class="tag">AGPL-3.0</span>
+        </div>
+      </div>
+
+      <!-- NIGHTOWL -->
+      <div class="card proj reveal">
+        <div class="proj-head">
+          <h3>NightOwl — framework de pentest</h3>
+          <span class="proj-cat tool">Open-source</span>
+        </div>
+        <p class="ctx">Framework de test d'intrusion en Python (~79 modules : recon, web, réseau, exploit, post-exploit). Pipeline unifié, scoring de confiance des findings, campagne de benchmarks reproductibles.</p>
+        <div class="metrics">
+          <span class="metric"><b>~79</b> modules</span>
+          <span class="metric">Benchmarks <b>DVWA · Juice Shop · WebGoat</b></span>
+        </div>
+        <div class="foot">
+          <span class="tag">Python 3.11</span><span class="tag">Recon DNS / ports / WAF</span><span class="tag">JWT / HTTP smuggling</span><span class="tag">Licence MIT</span>
+        </div>
+      </div>
+
+      <!-- CODE4RENA -->
+      <div class="card proj reveal">
+        <div class="proj-head">
+          <h3>Audit de smart contract — contest Code4rena</h3>
+          <span class="proj-cat web3">Web3</span>
+        </div>
+        <p class="ctx">Participation à un contest d'audit public (protocole de prêt sur Stellar/Soroban, en Rust — prize pool 135 000 USDC). Analyse différentielle face aux rapports de trois cabinets pros.</p>
+        <div class="metrics">
+          <span class="metric">1 finding <b>Medium → High</b></span>
+          <span class="metric">PoC exécutable <b>« RUNS GREEN »</b></span>
+        </div>
+        <div class="foot">
+          <span class="tag">Bypass MAX_USER_RESERVES → DoS de liquidation</span><span class="tag">Rust / Soroban</span><span class="tag">Modèle Aave V3</span>
+        </div>
+      </div>
+
+      <!-- CTF ICS -->
+      <div class="card proj reveal">
+        <div class="proj-head">
+          <h3>CTF industriel — ICS / SCADA (OPC-UA)</h3>
+          <span class="proj-cat off">CTF · OT</span>
+        </div>
+        <p class="ctx">Résolution d'un challenge de sécurité des systèmes industriels sur le protocole OPC-UA (IEC 62541) : authentification par certificat client X.509, chiffrement, extraction du flag.</p>
+        <div class="metrics">
+          <span class="metric">Auth <b>X.509</b> · Sign &amp; Encrypt</span>
+          <span class="metric">Niche <b>OT / ICS</b> à haute valeur</span>
+        </div>
+        <div class="foot">
+          <span class="tag">OPC-UA / IEC 62541</span><span class="tag">PKI / RSA 2048</span><span class="tag">Python</span><span class="tag">Root-Me</span>
+        </div>
+      </div>
+
+      <!-- ML ADVERSARIAL -->
+      <div class="card proj reveal">
+        <div class="proj-head">
+          <h3>Boot2root + attaque adversariale ML</h3>
+          <span class="proj-cat off">Offensif · IA</span>
+        </div>
+        <p class="ctx">Compromission complète d'une machine de lab (recon → clé exposée → SSH → escalade jusqu'à root) doublée d'une attaque adversariale ciblée contre un classifieur PyTorch, sous contrainte de budget L1.</p>
+        <div class="metrics">
+          <span class="metric">Escalade <b>jusqu'à root</b></span>
+          <span class="metric">Évasion <b>Carlini-Wagner (L1)</b></span>
+        </div>
+        <div class="foot">
+          <span class="tag">gobuster / netdiscover</span><span class="tag">Privesc</span><span class="tag">PyTorch</span><span class="tag">Sécurité de l'IA</span>
+        </div>
+      </div>
+
+      <!-- INFRA LAB -->
+      <div class="card proj reveal">
+        <div class="proj-head">
+          <h3>Infrastructure sécurisée « as code »</h3>
+          <span class="proj-cat def">Infra</span>
+        </div>
+        <p class="ctx">Déploiement d'un SI virtualisé, segmenté et supervisé : parc de VM isolées derrière un pare-feu, supervision centralisée et automatisation complète par IaC.</p>
+        <div class="metrics">
+          <span class="metric">Segmentation <b>OPNsense</b></span>
+          <span class="metric">Supervision <b>Centreon</b></span>
+          <span class="metric">Automatisation <b>Ansible</b></span>
+        </div>
+        <div class="foot">
+          <span class="tag">Proxmox VE</span><span class="tag">Réseau isolé</span><span class="tag">Défense en profondeur</span><span class="tag">Runbooks</span>
+        </div>
+      </div>
+
+      <!-- CURS3D -->
+      <div class="card proj reveal">
+        <div class="proj-head">
+          <h3>Blockchain L1 post-quantique (from scratch)</h3>
+          <span class="proj-cat web3">Cryptographie</span>
+        </div>
+        <p class="ctx">Conception d'une blockchain Layer-1 en Rust résistante à l'informatique quantique, conforme aux standards NIST : signatures CRYSTALS-Dilithium, hachage SHA-3, consensus BFT PoS. Testnet multi-validateurs fonctionnel.</p>
+        <div class="metrics">
+          <span class="metric"><b>~31 400</b> lignes Rust</span>
+          <span class="metric"><b>145</b> tests · 0 warning</span>
+          <span class="metric">CRYSTALS-Dilithium <b>L5</b></span>
+        </div>
+        <div class="foot">
+          <span class="tag">Post-quantique (FIPS 204/202)</span><span class="tag">Consensus BFT</span><span class="tag">VM WASM + EVM</span><span class="tag">Gestion de secrets</span>
+        </div>
+      </div>
+
+      <!-- AUDITORKIT -->
+      <div class="card proj reveal">
+        <div class="proj-head">
+          <h3>AuditorKit — outillage d'audit smart contracts</h3>
+          <span class="proj-cat tool">Produit</span>
+        </div>
+        <p class="ctx">Kit méthodologique et outillé pour l'audit de contrats Solidity : scanner statique + IA en Python, templates de tests, checklist de vulnérabilités et bibliothèque d'exploits historiques annotés.</p>
+        <div class="metrics">
+          <span class="metric"><b>26</b> modules</span>
+          <span class="metric">Checklist <b>80+</b> vulnérabilités</span>
+          <span class="metric"><b>10</b> PoC d'exploits historiques</span>
+        </div>
+        <div class="foot">
+          <span class="tag">Scanner Python</span><span class="tag">Templates Foundry</span><span class="tag">Multi-chaînes (Solana / Move / Cairo)</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="disclaimer reveal">
+      <svg viewBox="0 0 24 24"><path d="M12 2l9 5v6c0 5-3.5 8.5-9 11-5.5-2.5-9-6-9-11V7z"/><path d="M12 8v5"/><circle cx="12" cy="16.5" r=".6" fill="currentColor" stroke="none"/></svg>
+      <span>Éthique &amp; confidentialité — Toutes les missions clients, cibles de bug bounty et infrastructures sont anonymisées. Aucune donnée sensible, aucun secret et aucun détail exploitable ne figure sur ce site. Les tests offensifs ont été menés dans un cadre autorisé (programmes de bug bounty, labs, contests publics).</span>
+    </div>
+  </div>
+</section>
+
+<section id="stack" style="background:linear-gradient(180deg,transparent,rgba(13,17,25,.5),transparent)">
+  <div class="wrap">
+    <div class="kicker mono reveal">03 — Arsenal</div>
+    <h2 class="sec reveal">Outils &amp; technologies</h2>
+    <p class="sec-lead reveal">L'outillage mobilisé au quotidien, du recon offensif à la remédiation défensive.</p>
+
+    <div style="margin-top:44px" class="reveal">
+      <div class="stack-group">
+        <div class="gt">Offensif &amp; audit</div>
+        <div class="chips">
+          <span class="chip">Burp Suite</span><span class="chip">Nmap</span><span class="chip">Metasploit</span><span class="chip">Wireshark</span><span class="chip">gobuster</span><span class="chip">subfinder</span><span class="chip">httpx</span><span class="chip">hydra</span><span class="chip">Semgrep (SAST)</span><span class="chip">OWASP ZAP (DAST)</span><span class="chip">Slither</span><span class="chip">Mythril</span><span class="chip">Echidna</span><span class="chip">Foundry</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="gt">Défensif &amp; DevSecOps</div>
+        <div class="chips">
+          <span class="chip">ModSecurity + OWASP CRS</span><span class="chip">Wazuh (SIEM)</span><span class="chip">Suricata (IDS)</span><span class="chip">CrowdSec</span><span class="chip">Fail2ban</span><span class="chip">Lynis</span><span class="chip">rkhunter</span><span class="chip">AIDE</span><span class="chip">Trivy</span><span class="chip">Gitleaks</span><span class="chip">Cosign / SBOM</span><span class="chip">GitHub Actions</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="gt">Infrastructure &amp; réseau</div>
+        <div class="chips">
+          <span class="chip">Proxmox VE</span><span class="chip">OPNsense</span><span class="chip">Centreon</span><span class="chip">Ansible</span><span class="chip">Docker / Compose</span><span class="chip">Nginx / Apache</span><span class="chip">WireGuard</span><span class="chip">Active Directory</span><span class="chip">PKI / X.509</span><span class="chip">Plesk</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="gt">Développement</div>
+        <div class="chips">
+          <span class="chip">Python</span><span class="chip">Rust</span><span class="chip">Solidity</span><span class="chip">TypeScript / Node</span><span class="chip">PHP / Laravel</span><span class="chip">C</span><span class="chip">Bash</span><span class="chip">Next.js / React</span><span class="chip">PostgreSQL</span><span class="chip">MongoDB</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="gt">Cadres &amp; gouvernance</div>
+        <div class="chips">
+          <span class="chip">OWASP Top 10</span><span class="chip">MITRE ATT&amp;CK</span><span class="chip">EBIOS RM</span><span class="chip">CVSS / CWE</span><span class="chip">RGPD</span><span class="chip">ISO 27001 (notions)</span><span class="chip">Crypto appliquée (AES-GCM · Ed25519)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="parcours">
+  <div class="wrap">
+    <div class="kicker mono reveal">04 — Parcours</div>
+    <h2 class="sec reveal">Formation &amp; expérience</h2>
+
+    <div class="path-grid" style="margin-top:44px">
+      <div class="reveal">
+        <div class="tl">
+          <div class="tl-item">
+            <div class="when">SEPT. 2025 → SEPT. 2026</div>
+            <h4>Alternant DevSecOps / Dév. Fullstack Cybersécurité</h4>
+            <div class="org">Agence web · Lyon</div>
+            <p>Référent sécurité applicative : audits OWASP/CVSS d'applications internes et clientes, hardening d'un serveur de production, déploiement d'un SI virtualisé supervisé « as code » (Proxmox, Ansible, OPNsense, Centreon), chaîne DevSecOps.</p>
+          </div>
+          <div class="tl-item">
+            <div class="when">2023 → PRÉSENT</div>
+            <h4>Fondateur &amp; Dev Lead — Pazent Studio</h4>
+            <div class="org">Freelance · Lyon / remote</div>
+            <p>Studio indépendant : développement web, dApps Web3, audits de sécurité et sites clients. Conception de frameworks de sécurité open-source et de produits d'outillage pour auditeurs.</p>
+          </div>
+          <div class="tl-item">
+            <div class="when">2024 → 2025</div>
+            <h4>Consultant SEO / Développeur</h4>
+            <div class="org">Agence e-commerce · région lyonnaise</div>
+            <p>Développement et optimisation Shopify / WordPress, automatisation Python / JS, performance web.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="panel" style="margin-bottom:20px">
+          <h4>Formation &amp; certifications</h4>
+          <div class="edu-card">
+            <div class="top"><h4>Bachelor Cybersécurité (Bac+3)</h4><span class="yr">2023–2026</span></div>
+            <div class="sub">Guardia Cybersecurity School · Lyon</div>
+            <span class="pill now">3ᵉ année — en cours</span>
+          </div>
+          <div class="edu-card">
+            <div class="top"><h4>Titre RNCP Niveau 6 — Administrateur d'Infrastructures Sécurisées</h4><span class="yr">Session 2026</span></div>
+            <div class="sub">RNCP37680 · Ministère du Travail</div>
+            <span class="pill now">En cours de passage</span>
+          </div>
+          <div class="edu-card">
+            <div class="top"><h4>Baccalauréat général — Maths / Physique-Chimie</h4><span class="yr">2023</span></div>
+            <div class="sub">Option Maths Expertes</div>
+            <span class="pill done">Obtenu</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h4>Repères</h4>
+          <div class="kv"><span class="k">localisation</span><span class="v">Lyon, France <small>· remote</small></span></div>
+          <div class="kv"><span class="k">langues</span><span class="v">FR natif · EN <small>C1</small> · IT <small>B2</small></span></div>
+          <div class="kv"><span class="k">github</span><span class="v"><a href="https://github.com/Pazificateur69" class="accent">@Pazificateur69</a></span></div>
+          <div class="kv"><span class="k">focus</span><span class="v">DevSecOps · AppSec · Web3</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-box reveal">
+      <div class="kicker mono" style="justify-content:center;display:flex">05 — Contact</div>
+      <h2>Un audit, un pentest, une infra à sécuriser ?</h2>
+      <p>Missions de sécurité offensive, défensive ou DevSecOps — que ce soit un audit ponctuel, une chasse de vulnérabilités ou du durcissement d'infrastructure. Écrivez-moi, je réponds sous 48 h.</p>
+      <div class="contact-actions">
+        <a class="btn primary" href="mailto:agencenetstrategy@gmail.com?subject=Mission%20s%C3%A9curit%C3%A9">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          Envoyer un email
+        </a>
+        <a class="btn ghost" href="https://github.com/Pazificateur69" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.05 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.92-2.34 4.79-4.57 5.04.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg>
+          Voir mes projets
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>© 2026 Alessandro Gagliardi — <span class="accent">Pazificateur</span></div>
+    <div class="mono">DevSecOps · Sécurité offensive &amp; défensive · Web3</div>
+    <div><a href="https://github.com/Pazificateur69" target="_blank" rel="noopener">github.com/Pazificateur69</a></div>
+  </div>
+</footer>
+
+<script>
+  // menu mobile
+  var burger=document.getElementById('burger'),menu=document.getElementById('menu');
+  burger&&burger.addEventListener('click',function(){menu.classList.toggle('open')});
+  menu&&menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open')})});
+  // reveal on scroll
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el,i){el.style.transitionDelay=(Math.min(i,6)*40)+'ms';io.observe(el)});
+</script>
+</body>
+</html>
