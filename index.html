@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alessandro Gagliardi — Cybersecurity Expert &amp; DevSecOps</title>
-<meta name="description" content="Alessandro Gagliardi — Cybersecurity Expert &amp; DevSecOps. Sécurité offensive et défensive sur infrastructures de production : audits OWASP, pentest, hardening, DevSecOps, audit de smart contracts.">
-<meta name="author" content="Alessandro Gagliardi">
+<title>Alessandro — Cybersecurity Expert &amp; DevSecOps</title>
+<meta name="description" content="Alessandro — Cybersecurity Expert &amp; DevSecOps. Sécurité offensive et défensive sur infrastructures de production : audits OWASP, pentest, hardening, DevSecOps, audit de smart contracts.">
+<meta name="author" content="Alessandro">
 <meta name="color-scheme" content="dark">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Alessandro Gagliardi — Cybersecurity Expert &amp; DevSecOps">
+<meta property="og:title" content="Alessandro — Cybersecurity Expert &amp; DevSecOps">
 <meta property="og:description" content="Sécurité offensive &amp; défensive sur infrastructures de production. Audits OWASP, pentest, hardening, DevSecOps, audit de smart contracts.">
 <meta property="og:locale" content="fr_FR">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0d12'/%3E%3Cpath d='M50 14l26 10v20c0 18-11 30-26 38-15-8-26-20-26-38V24z' fill='none' stroke='%234ade80' stroke-width='6' stroke-linejoin='round'/%3E%3Cpath d='M38 50l9 9 17-19' fill='none' stroke='%234ade80' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Person",
-  "name": "Alessandro Gagliardi",
+  "name": "Alessandro",
   "alternateName": "Pazificateur",
   "jobTitle": "Cybersecurity Expert / DevSecOps",
   "description": "Expert en cybersécurité offensive et défensive : audits applicatifs OWASP, pentest, hardening d'infrastructures, DevSecOps, audit de smart contracts.",
@@ -32,10 +32,10 @@
 </script>
 <style>
   :root{
-    --bg:#090c11; --bg-2:#0d1119; --surface:#111621; --surface-2:#151b28;
-    --border:#1d2432; --border-2:#2a3344;
-    --text:#e8eef6; --muted:#95a1b6; --muted-2:#66718a;
-    --accent:#4ade80; --accent-dim:#2fa563; --accent-glow:rgba(74,222,128,.13);
+    --bg:#07090d; --bg-2:#0b0f16; --surface:#10151e; --surface-2:#151c28;
+    --border:#1c2430; --border-2:#303b4d;
+    --text:#f2f6fb; --muted:#9aa8ba; --muted-2:#68758a;
+    --accent:#72f59d; --accent-dim:#32ad67; --accent-glow:rgba(114,245,157,.13);
     --cyan:#38bdf8; --violet:#c084fc;
     --crit:#f2555a; --high:#ff8a3d; --med:#f4c430; --low:#5ed497;
     --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -50,6 +50,11 @@
     background:var(--bg);color:var(--text);font-family:var(--sans);
     line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:16px;
   }
+  ::selection{background:var(--accent);color:#06140a}
+  ::-webkit-scrollbar{width:9px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#263143;border:2px solid var(--bg);border-radius:10px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+  .skip{position:fixed;top:10px;left:10px;z-index:1000;background:var(--accent);color:#06140a;padding:9px 13px;border-radius:8px;font-family:var(--mono);font-size:12px;transform:translateY(-160%);transition:.2s}
+  .skip:focus{transform:none}
   body::before{
     content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
     background:
@@ -65,21 +70,27 @@
     -webkit-mask-image:radial-gradient(circle at 50% 10%,#000,transparent 76%);
     mask-image:radial-gradient(circle at 50% 10%,#000,transparent 76%);
   }
+  .cursor-glow{position:fixed;z-index:-1;width:520px;height:520px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(114,245,157,.055),transparent 67%);transform:translate(-50%,-50%);left:var(--mx,70%);top:var(--my,20%);transition:left .12s linear,top .12s linear}
+  .to-top{position:fixed;z-index:50;right:22px;bottom:22px;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--border-2);background:rgba(12,17,24,.84);backdrop-filter:blur(12px);color:var(--muted);font-family:var(--mono);font-size:15px;cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transition:.22s}
+  .to-top.show{opacity:1;transform:none;pointer-events:auto}.to-top:hover{color:var(--accent);border-color:var(--accent-dim);box-shadow:0 10px 30px -16px rgba(114,245,157,.5)}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
   .mono{font-family:var(--mono)}
   .accent{color:var(--accent)}
 
   /* NAV */
-  header.nav{position:sticky;top:0;z-index:60;backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);background:rgba(9,12,17,.74);border-bottom:1px solid var(--border)}
+  header.nav{position:sticky;top:0;z-index:60;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(7,9,13,.76);border-bottom:1px solid rgba(48,59,77,.6)}
+  header.nav::after{content:"";position:absolute;left:0;bottom:-1px;height:1px;width:var(--scroll,0%);background:linear-gradient(90deg,var(--accent),var(--cyan));box-shadow:0 0 14px rgba(114,245,157,.7)}
   .nav-in{display:flex;align-items:center;justify-content:space-between;height:66px;gap:16px}
   .brand{display:flex;align-items:center;gap:11px;font-family:var(--display);font-weight:600;letter-spacing:.2px;flex:none}
   .brand .logo{width:27px;height:27px;flex:none}
-  .brand b{font-weight:700}.brand span{color:var(--muted);font-weight:400}
+  .brand b{font-weight:700;color:var(--text);font-size:15px;letter-spacing:-.2px}.brand span{color:var(--muted);font-weight:400}
   .nav-right{display:flex;align-items:center;gap:10px}
   nav.links{display:flex;gap:4px;align-items:center}
-  nav.links a{font-family:var(--mono);font-size:13px;color:var(--muted);padding:8px 12px;border-radius:8px;transition:.18s}
+  nav.links a{font-family:var(--mono);font-size:12px;color:var(--muted);padding:8px 10px;border-radius:8px;transition:.18s;position:relative}
   nav.links a:hover{color:var(--text);background:var(--surface)}
+  nav.links a.active{color:var(--text);background:rgba(114,245,157,.07)}
+  nav.links a.active::after{content:"";position:absolute;left:50%;bottom:2px;width:3px;height:3px;transform:translateX(-50%);border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
   .lang{display:flex;font-family:var(--mono);font-size:12px;border:1px solid var(--border-2);border-radius:8px;overflow:hidden}
   .lang button{background:none;border:none;color:var(--muted);padding:7px 11px;cursor:pointer;transition:.15s;font-family:var(--mono);font-size:12px}
   .lang button.active{background:var(--accent);color:#06210f;font-weight:600}
@@ -89,7 +100,7 @@
   .burger{display:none;background:none;border:1px solid var(--border-2);border-radius:8px;color:var(--text);padding:8px 11px;cursor:pointer;font-family:var(--mono);font-size:14px}
   @media(max-width:900px){
     nav.links{display:none}
-    nav.links.open{display:flex;position:absolute;top:66px;left:0;right:0;flex-direction:column;gap:2px;padding:14px;background:rgba(9,12,17,.98);border-bottom:1px solid var(--border)}
+    nav.links.open{display:flex;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:2px;padding:14px;background:rgba(7,9,13,.98);border-bottom:1px solid var(--border)}
     nav.links.open a{padding:12px}
     .nav-cta{display:none}
     .burger{display:block}
@@ -103,18 +114,26 @@
   .sec-lead{color:var(--muted);max-width:660px;margin-top:14px;font-size:1.03rem}
 
   /* HERO */
-  .hero{padding:88px 0 78px}
-  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:52px;align-items:center}
+  .hero{padding:96px 0 82px;min-height:calc(100vh - 66px);display:flex;align-items:center}
+  .hero-grid{display:grid;grid-template-columns:1.16fr .84fr;gap:64px;align-items:center}
   @media(max-width:960px){.hero-grid{grid-template-columns:1fr;gap:40px}}
-  .status{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12.5px;color:var(--muted);border:1px solid var(--border-2);border-radius:100px;padding:6px 14px;margin-bottom:24px;background:rgba(17,22,33,.6)}
+  .eyebrow-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+  .status{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;color:var(--text);border:1px solid rgba(114,245,157,.28);border-radius:100px;padding:7px 14px;background:rgba(114,245,157,.07)}
+  .location{font-family:var(--mono);font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
   .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2.4s infinite}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}70%{box-shadow:0 0 0 9px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
-  @media (prefers-reduced-motion:reduce){.dot{animation:none}}
-  .hero h1{font-family:var(--display);font-weight:700;letter-spacing:-1.4px;font-size:clamp(2.3rem,5.6vw,4rem);line-height:1.03;margin-bottom:12px}
-  .hero h1 .grad{background:linear-gradient(100deg,#e8eef6 8%,#4ade80 54%,#38bdf8 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .hero .role{font-family:var(--mono);color:var(--accent);font-size:clamp(.9rem,2vw,1.1rem);margin-bottom:22px;letter-spacing:.3px}
+  @media (prefers-reduced-motion:reduce){.dot,.term .cur{animation:none}.term,.card,.btn{transform:none!important;transition:none!important}}
+  .identity{position:relative;margin-bottom:25px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+  .identity::after{content:"";position:absolute;bottom:-1px;left:0;width:90px;height:1px;background:var(--accent);box-shadow:0 0 16px rgba(114,245,157,.65)}
+  .identity-label{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:2.2px;color:var(--muted-2);text-transform:uppercase;margin-bottom:5px}
+  .identity-label::before{content:"00";display:grid;place-items:center;width:25px;height:25px;border:1px solid var(--border-2);border-radius:50%;font-size:8px;color:var(--accent);letter-spacing:0}
+  .hero h1.hero-name{font-family:var(--display);font-weight:700;font-size:clamp(4rem,8.6vw,7.1rem);line-height:.83;letter-spacing:-6px;margin-left:-5px;color:var(--text);text-shadow:0 18px 55px rgba(0,0,0,.4)}
+  .hero h1.hero-name span{color:var(--accent);text-shadow:0 0 32px rgba(114,245,157,.32)}
+  .hero-claim{font-family:var(--display);font-weight:600;letter-spacing:-1.5px;font-size:clamp(2rem,4vw,3.35rem);line-height:1.02;margin-bottom:18px;max-width:700px}
+  .hero-claim .grad{background:linear-gradient(100deg,#f2f6fb 5%,#72f59d 58%,#53c8fa 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero .role{font-family:var(--mono);color:var(--accent);font-size:clamp(.84rem,1.7vw,1rem);margin-bottom:18px;letter-spacing:.3px}
   .hero .role .sep{color:var(--muted-2)}
-  .hero p.lead{font-size:1.08rem;color:var(--muted);max-width:560px;margin-bottom:32px}
+  .hero p.lead{font-size:1rem;color:var(--muted);max-width:600px;margin-bottom:30px;line-height:1.75}
   .hero p.lead strong{color:var(--text);font-weight:600}
   .btns{display:flex;gap:13px;flex-wrap:wrap}
   .btn{font-family:var(--mono);font-size:14px;font-weight:500;padding:13px 22px;border-radius:10px;display:inline-flex;align-items:center;gap:9px;transition:.2s;cursor:pointer;border:1px solid transparent}
@@ -122,9 +141,20 @@
   .btn.primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px rgba(74,222,128,.5)}
   .btn.ghost{border-color:var(--border-2);color:var(--text);background:rgba(17,22,33,.5)}
   .btn.ghost:hover{border-color:var(--accent-dim);color:var(--accent);transform:translateY(-2px)}
+  .btn svg{transition:transform .2s}.btn:hover svg.arrow{transform:translateX(4px)}
+  .hero-links{display:flex;align-items:center;gap:18px;margin-top:25px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+  .hero-links a{display:flex;align-items:center;gap:7px;transition:.18s}.hero-links a:hover{color:var(--accent)}
+  .hero-links svg{width:15px;height:15px}
 
   /* TERMINAL */
-  .term{background:linear-gradient(180deg,#0e131d,#0a0e15);border:1px solid var(--border-2);border-radius:14px;overflow:hidden;box-shadow:0 30px 70px -30px rgba(0,0,0,.7);font-family:var(--mono);font-size:13px}
+  .hero-visual{position:relative;padding:28px 0 22px}
+  .hero-visual::before{content:"A";position:absolute;right:-25px;top:-110px;font-family:var(--display);font-size:14rem;line-height:1;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(114,245,157,.09);z-index:-1}
+  .hero-visual::after{content:"";position:absolute;width:260px;height:260px;right:-70px;top:-30px;border:1px solid rgba(114,245,157,.08);border-radius:50%;z-index:-1;box-shadow:0 0 0 38px rgba(114,245,157,.025),0 0 0 76px rgba(114,245,157,.015)}
+  .term{background:linear-gradient(180deg,rgba(16,21,30,.97),rgba(8,12,18,.97));border:1px solid var(--border-2);border-radius:18px;overflow:hidden;box-shadow:0 38px 90px -35px rgba(0,0,0,.9),0 0 70px -45px rgba(114,245,157,.55);font-family:var(--mono);font-size:12.5px;transform:perspective(900px) rotateY(-2deg) rotateX(1deg)}
+  .signal-card{position:absolute;right:-20px;bottom:-17px;width:205px;padding:14px 15px;border-radius:13px;background:rgba(15,21,30,.94);border:1px solid var(--border-2);backdrop-filter:blur(14px);box-shadow:0 18px 42px -22px #000}
+  .signal-card .label{font-family:var(--mono);font-size:9px;color:var(--muted-2);text-transform:uppercase;letter-spacing:1px}.signal-card strong{display:block;font-family:var(--display);font-size:1.18rem;margin-top:3px}.signal-card span:last-child{font-family:var(--mono);font-size:10px;color:var(--accent)}
+  @media(max-width:960px){.hero{min-height:auto}.hero-visual{max-width:680px}.term{transform:none}.signal-card{right:12px}.hero-grid{gap:45px}}
+  @media(max-width:520px){.hero{padding-top:62px}.hero h1.hero-name{letter-spacing:-3.6px;font-size:clamp(3.55rem,18vw,5.2rem)}.hero-claim{letter-spacing:-1px}.identity{margin-bottom:22px}.signal-card{position:relative;right:auto;bottom:auto;width:100%;margin-top:12px}.hero-links{align-items:flex-start;flex-direction:column;gap:10px}}
   .term-bar{display:flex;align-items:center;gap:7px;padding:11px 14px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--border)}
   .term-bar i{width:11px;height:11px;border-radius:50%;display:block}
   .term-bar i:nth-child(1){background:#ff5f57}.term-bar i:nth-child(2){background:#febc2e}.term-bar i:nth-child(3){background:#28c840}
@@ -138,7 +168,7 @@
   @keyframes blink{50%{opacity:0}}
 
   /* STATS STRIP */
-  .strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-top:64px}
+  .strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-top:72px;background:rgba(10,14,20,.45)}
   .strip-in{display:grid;grid-template-columns:repeat(4,1fr)}
   @media(max-width:720px){.strip-in{grid-template-columns:repeat(2,1fr)}}
   .st{padding:26px 8px;text-align:center;border-right:1px solid var(--border)}
@@ -147,9 +177,10 @@
   .st .n{font-family:var(--display);font-size:clamp(1.5rem,3.6vw,2.2rem);font-weight:700;letter-spacing:-.5px}
   .st .n .u{color:var(--accent);font-size:.6em}
   .st .l{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:5px;text-transform:uppercase;letter-spacing:.6px}
+  .st{position:relative;overflow:hidden}.st::before{content:"";position:absolute;left:50%;bottom:0;width:70%;height:1px;transform:translateX(-50%) scaleX(0);background:var(--accent);transition:transform .3s}.st:hover::before{transform:translateX(-50%) scaleX(1)}
 
   /* CURRENT ROLE */
-  .role-wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:44px;align-items:start;margin-top:44px}
+  .role-wrap{display:grid;grid-template-columns:.7fr 1.3fr;gap:28px;align-items:start;margin-top:44px}
   @media(max-width:900px){.role-wrap{grid-template-columns:1fr;gap:30px}}
   .role-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:28px;position:sticky;top:90px}
   @media(max-width:900px){.role-card{position:static}}
@@ -161,7 +192,7 @@
   .role-meta .k{color:var(--muted-2);font-family:var(--mono);font-size:12px}
   .role-meta .v{color:var(--text);font-weight:500;text-align:right}
   .role-scope{margin-top:18px;color:var(--muted);font-size:.93rem;border-top:1px solid var(--border);padding-top:16px}
-  .hl{display:flex;flex-direction:column;gap:14px}
+  .hl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
   .hl-item{background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--border);border-radius:14px;padding:20px 22px;transition:.22s}
   .hl-item:hover{border-color:var(--border-2);transform:translateX(4px)}
   .hl-item .hh{display:flex;align-items:center;gap:11px;margin-bottom:9px}
@@ -170,6 +201,7 @@
   .hl-item p{color:var(--muted);font-size:.93rem;line-height:1.6}
   .hl-item p b{color:var(--text);font-weight:600}
   .hl-item p .g{color:var(--accent);font-weight:600;font-family:var(--mono);font-size:.9em}
+  @media(max-width:1100px){.role-wrap{grid-template-columns:.75fr 1.25fr}.hl{grid-template-columns:1fr}}
 
   /* GRID + CARDS */
   .grid{display:grid;gap:20px}
@@ -177,8 +209,9 @@
   .g-4{grid-template-columns:repeat(4,1fr)}
   @media(max-width:900px){.g-4{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:620px){.g-2,.g-4{grid-template-columns:1fr}}
-  .card{background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--border);border-radius:16px;padding:26px;transition:.25s}
-  .card:hover{border-color:var(--border-2);transform:translateY(-3px)}
+  .card{background:linear-gradient(155deg,rgba(17,23,33,.98),rgba(9,13,19,.98));border:1px solid var(--border);border-radius:18px;padding:26px;transition:.25s;position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;inset:0;background:radial-gradient(360px circle at var(--x,50%) var(--y,0%),rgba(114,245,157,.055),transparent 45%);opacity:0;transition:.25s;pointer-events:none}
+  .card:hover{border-color:var(--border-2);transform:translateY(-4px);box-shadow:0 24px 55px -40px rgba(0,0,0,.9)}.card:hover::before{opacity:1}
   .exp-card .ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--accent-glow);border:1px solid var(--border-2);margin-bottom:16px}
   .exp-card .ico svg{width:23px;height:23px;stroke:var(--accent);fill:none;stroke-width:1.8}
   .exp-card h3{font-family:var(--display);font-size:1.16rem;font-weight:600;margin-bottom:9px}
@@ -202,6 +235,15 @@
   .b-high{color:var(--high);background:rgba(255,138,61,.1);border:1px solid rgba(255,138,61,.25)}
   .b-med{color:var(--med);background:rgba(244,196,48,.1);border:1px solid rgba(244,196,48,.22)}
   .proj .foot{display:flex;flex-wrap:wrap;gap:7px;padding-top:13px;border-top:1px solid var(--border)}
+  .project-tools{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:38px;margin-bottom:18px;flex-wrap:wrap}
+  .filters{display:flex;gap:7px;flex-wrap:wrap}
+  .filter{border:1px solid var(--border);background:var(--surface);color:var(--muted);font-family:var(--mono);font-size:11.5px;padding:8px 12px;border-radius:100px;cursor:pointer;transition:.18s}
+  .filter:hover{color:var(--text);border-color:var(--border-2)}.filter.active{background:var(--accent);border-color:var(--accent);color:#06140a;font-weight:600}
+  .project-count{font-family:var(--mono);font-size:11px;color:var(--muted-2)}
+  .proj.is-hidden{display:none}
+  .projects-more{display:flex;justify-content:center;margin-top:24px}
+  .projects-more button{background:transparent}
+  .project-index{position:absolute;right:20px;bottom:8px;font-family:var(--display);font-size:4.7rem;line-height:1;font-weight:700;color:rgba(255,255,255,.025);pointer-events:none}
   .disclaimer{font-family:var(--mono);font-size:12px;color:var(--muted-2);border:1px dashed var(--border-2);border-radius:10px;padding:14px 16px;margin-top:26px;display:flex;gap:11px;align-items:flex-start}
   .disclaimer svg{width:17px;height:17px;stroke:var(--muted);fill:none;stroke-width:1.8;flex:none;margin-top:2px}
 
@@ -241,7 +283,7 @@
   .kv2 .v small{color:var(--accent);font-family:var(--mono);font-size:11px}
 
   /* CONTACT */
-  .contact-box{background:linear-gradient(150deg,var(--surface),var(--bg-2));border:1px solid var(--border);border-radius:22px;padding:52px 40px;text-align:center;position:relative;overflow:hidden}
+  .contact-box{background:linear-gradient(150deg,#121a24,#0b1018);border:1px solid var(--border-2);border-radius:26px;padding:68px 40px;text-align:center;position:relative;overflow:hidden;box-shadow:0 40px 90px -55px #000}
   .contact-box::before{content:"";position:absolute;inset:0;background:radial-gradient(500px 240px at 50% -10%,var(--accent-glow),transparent 70%);pointer-events:none}
   .contact-box h2{font-family:var(--display);font-size:clamp(1.7rem,4vw,2.5rem);font-weight:600;letter-spacing:-.5px;position:relative}
   .contact-box p{color:var(--muted);max-width:520px;margin:14px auto 30px;position:relative}
@@ -255,15 +297,135 @@
   .reveal.in{opacity:1;transform:none}
   @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
   [data-lang-hide]{display:none}
+
+  /* =========================================================
+     ALESSANDRO / SECURITY ORBIT — BESPOKE ART DIRECTION
+     ========================================================= */
+  body::before{background:
+    radial-gradient(1000px 700px at 80% 7%,rgba(83,200,250,.07),transparent 61%),
+    radial-gradient(850px 650px at 14% 15%,rgba(114,245,157,.075),transparent 62%),
+    linear-gradient(115deg,#06080b 0%,#090d12 48%,#06080b 100%)}
+  body::after{opacity:.75;background-image:
+    linear-gradient(rgba(151,171,196,.026) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(151,171,196,.026) 1px,transparent 1px),
+    radial-gradient(circle,rgba(255,255,255,.09) .6px,transparent .8px);
+    background-size:72px 72px,72px 72px,7px 7px;
+    -webkit-mask-image:linear-gradient(to bottom,#000,transparent 88%);mask-image:linear-gradient(to bottom,#000,transparent 88%)}
+  header.nav{background:rgba(6,8,11,.66);border-color:rgba(255,255,255,.07)}
+  .brand .logo{border-radius:9px;filter:drop-shadow(0 0 12px rgba(114,245,157,.18))}
+  .nav-cta,.btn,.lang,.filter{border-radius:2px}
+  .hero{padding:76px 0 0;display:block;min-height:calc(100vh - 66px);overflow:hidden}
+  .hero>.wrap{max-width:1380px;padding:0 42px}
+  .hero-grid{grid-template-columns:minmax(0,1.04fr) minmax(430px,.96fr);gap:clamp(44px,6vw,100px);min-height:670px}
+  .identity{border:0;padding:0;margin-bottom:32px}
+  .identity::after{display:none}
+  .identity-label{margin-bottom:16px;color:#8491a4}
+  .identity-label::before{border-radius:0;transform:rotate(45deg);font-size:0;background:linear-gradient(135deg,transparent 47%,var(--accent) 48%,var(--accent) 52%,transparent 53%)}
+  .hero h1.hero-name{font-size:clamp(4.5rem,8.25vw,8.3rem);line-height:.77;letter-spacing:-8px;margin:0;text-transform:uppercase;font-weight:700;position:relative;width:max-content;max-width:100%}
+  .hero h1.hero-name::before{content:"IDENTITY / 001";position:absolute;right:3px;top:-7px;font:500 8px/1 var(--mono);letter-spacing:1.6px;color:var(--muted-2)}
+  .hero h1.hero-name::after{content:"";display:block;width:100%;height:7px;margin-top:18px;background:linear-gradient(90deg,var(--accent) 0 22%,rgba(114,245,157,.18) 22% 62%,transparent 62%)}
+  .hero h1.hero-name span{font-size:.55em;vertical-align:.05em}
+  .hero-claim{font-size:clamp(1.8rem,3.2vw,3.05rem);line-height:1.03;letter-spacing:-1.8px;margin-bottom:20px;max-width:670px}
+  .hero .role{font-size:11px;line-height:1.8;text-transform:uppercase;letter-spacing:.65px;max-width:650px}
+  .hero p.lead{max-width:640px;border-left:1px solid var(--border-2);padding-left:19px}
+  .btn{border-radius:2px;position:relative;overflow:hidden}
+  .btn.primary{box-shadow:8px 8px 0 rgba(114,245,157,.075)}
+  .btn.primary::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.35) 48%,transparent 70%);transform:translateX(-130%);transition:transform .55s}
+  .btn.primary:hover::after{transform:translateX(130%)}
+  .hero-links{padding-top:17px;border-top:1px solid rgba(255,255,255,.06);max-width:590px}
+
+  /* ORBITAL SECURITY CORE */
+  .hero-visual{padding:0;perspective:1200px}
+  .hero-visual::before,.hero-visual::after{display:none}
+  .security-orbit{--ox:0deg;--oy:0deg;position:relative;aspect-ratio:1;max-width:570px;margin-left:auto;background:
+    linear-gradient(135deg,rgba(114,245,157,.035),transparent 38%),
+    rgba(8,12,17,.74);border:1px solid rgba(126,151,176,.18);clip-path:polygon(0 0,calc(100% - 34px) 0,100% 34px,100% 100%,34px 100%,0 calc(100% - 34px));
+    box-shadow:0 45px 100px -60px #000,0 0 90px -65px rgba(114,245,157,.75);transform:rotateX(var(--ox)) rotateY(var(--oy));transition:transform .18s ease-out;transform-style:preserve-3d}
+  .security-orbit::before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 5px,rgba(255,255,255,.012) 6px);z-index:4}
+  .orbit-map{display:block;width:100%;height:100%;padding:37px}
+  .orbit-top,.orbit-bottom{position:absolute;z-index:5;left:18px;right:18px;display:flex;justify-content:space-between;font:500 8px/1 var(--mono);letter-spacing:1.35px;color:#68788b}
+  .orbit-top{top:16px}.orbit-bottom{bottom:15px}.orbit-top i{display:inline-block;width:5px;height:5px;background:var(--accent);border-radius:50%;margin-right:6px;box-shadow:0 0 8px var(--accent);animation:pulse 2s infinite}
+  .orbit-ring,.orbit-halo,.orbit-cross,.orbit-diagonal{fill:none;stroke:#7890a8;stroke-width:.65;opacity:.22}
+  .orbit-halo{stroke-dasharray:3 9;animation:orbitSpin 24s linear infinite;transform-origin:260px 260px}
+  .ring-1{stroke-dasharray:1 6}.ring-2{stroke:#72f59d;opacity:.18;stroke-dasharray:11 8}
+  .orbit-cross{stroke-dasharray:2 8;opacity:.14}.orbit-diagonal{opacity:.07}
+  .scan-arm{transform-origin:260px 260px;animation:orbitSpin 7s linear infinite}
+  .scan-arm path:first-child{stroke:url(#orbitGradient);stroke-width:1;opacity:.35}.scan-arc{fill:none;stroke:#72f59d;stroke-width:2.2;filter:url(#softGlow);opacity:.72}
+  .orbit-node circle:first-child{fill:#72f59d;filter:url(#softGlow)}.orbit-node circle:nth-child(2){fill:none;stroke:#72f59d;stroke-width:.8;opacity:.42;animation:nodePulse 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+  .orbit-node text{font:600 8px var(--mono);letter-spacing:1.4px;fill:#8496a8;text-anchor:middle}.node-b text,.node-d text{text-anchor:end}.node-d text{text-anchor:start}
+  .node-b circle:nth-child(2){animation-delay:.6s}.node-c circle:nth-child(2){animation-delay:1.2s}.node-d circle:nth-child(2){animation-delay:1.8s}
+  .orbit-pulse{fill:none;stroke:#72f59d;stroke-width:.8;opacity:.4;transform-origin:260px 260px;animation:corePulse 2.8s ease-out infinite}
+  .core-signature{position:absolute;left:50%;top:50%;width:106px;height:106px;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;gap:9px;border:1px solid rgba(114,245,157,.32);background:rgba(6,10,14,.72);box-shadow:inset 0 0 40px rgba(114,245,157,.07),0 0 35px rgba(114,245,157,.08);clip-path:polygon(15% 0,85% 0,100% 15%,100% 85%,85% 100%,15% 100%,0 85%,0 15%)}
+  .core-signature span{font:700 3.6rem/.8 var(--display);letter-spacing:-5px;color:var(--text)}.core-signature small{font:500 6px/1.55 var(--mono);letter-spacing:1.15px;color:var(--accent)}
+  .orbit-data{position:absolute;z-index:5;display:grid;min-width:84px;padding:8px 10px;background:rgba(5,8,12,.83);border-left:1px solid var(--accent);font-family:var(--mono)}
+  .orbit-data span{font-size:6px;letter-spacing:1px;color:var(--muted-2)}.orbit-data b{font:600 1.25rem/1 var(--display);margin:3px 0;color:var(--text)}.orbit-data small{font-size:6px;color:var(--accent)}
+  .data-a{left:8%;top:20%}.data-b{right:7%;bottom:18%}
+  .orbit-corner{position:absolute;width:22px;height:22px;border-color:var(--accent);opacity:.46}.corner-tl{left:9px;top:9px;border-left:1px solid;border-top:1px solid}.corner-tr{right:9px;top:9px;border-right:1px solid;border-top:1px solid}.corner-bl{left:9px;bottom:9px;border-left:1px solid;border-bottom:1px solid}.corner-br{right:9px;bottom:9px;border-right:1px solid;border-bottom:1px solid}
+  .orbit-caption{width:78%;margin:-24px 0 0 auto;padding:18px 21px;background:#0d131a;border:1px solid var(--border-2);position:relative;z-index:7;font-size:12px;color:var(--muted);box-shadow:-18px 18px 50px -30px #000}
+  .orbit-caption::before{content:"//";position:absolute;left:-15px;top:17px;color:var(--accent);font:600 12px var(--mono)}.orbit-caption strong{display:block;color:var(--text);font-weight:500;margin-top:2px}
+  @keyframes orbitSpin{to{transform:rotate(360deg)}}
+  @keyframes nodePulse{50%{transform:scale(1.7);opacity:.08}}
+  @keyframes corePulse{to{transform:scale(2.05);opacity:0}}
+
+  /* METRIC STRIP + KINETIC TYPE */
+  .strip{margin-top:68px;background:rgba(5,8,11,.74);border-color:rgba(255,255,255,.08)}
+  .st{padding:30px 12px;text-align:left}.st .n{font-size:clamp(2rem,3vw,3rem);line-height:1}.st .l{font-size:9px;letter-spacing:1px}.st .n .u{font-size:.35em;letter-spacing:.4px}
+  .capability-tape{border-bottom:1px solid var(--border);overflow:hidden;background:var(--accent);color:#07110a;transform:rotate(-1deg) scale(1.02);margin-top:17px}
+  .capability-tape>div{width:max-content;display:flex;align-items:center;gap:25px;padding:8px 0;font:700 10px/1 var(--mono);letter-spacing:1.8px;animation:tapeMove 26s linear infinite}.capability-tape i{font-style:normal;font-size:8px}
+  @keyframes tapeMove{to{transform:translateX(-50%)}}
+
+  /* EDITORIAL SECTIONS */
+  main>section:not(.hero){padding:132px 0;overflow:hidden}
+  #expertise,#stack{background:linear-gradient(180deg,rgba(255,255,255,.015),transparent)!important}
+  #poste::before,#expertise::before,#preuves::before,#stack::before,#parcours::before{position:absolute;right:-.02em;top:30px;font:700 clamp(9rem,22vw,22rem)/.8 var(--display);letter-spacing:-1.5rem;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.035);pointer-events:none}
+  #poste::before{content:"00"}#expertise::before{content:"01"}#preuves::before{content:"02"}#stack::before{content:"03"}#parcours::before{content:"04"}
+  .kicker{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;border:1px solid var(--border-2);padding:6px 10px;margin-bottom:21px;background:rgba(10,14,20,.65)}.kicker::before{width:5px;height:5px;border-radius:50%;box-shadow:0 0 8px var(--accent)}
+  h2.sec{font-size:clamp(2.5rem,5vw,4.8rem);letter-spacing:-3px;max-width:900px;line-height:.95}
+  .sec-lead{font-size:1rem;line-height:1.75;border-left:1px solid var(--accent-dim);padding-left:19px;margin-top:23px}
+  .role-card,.panel,.hl-item,.card{border-radius:2px;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+  .role-card{background:linear-gradient(145deg,#111821,#090d13);border-top-color:var(--accent-dim)}
+  .role-card::after{content:"ACTIVE ROLE";position:absolute;right:-27px;top:42px;transform:rotate(90deg);font:500 7px var(--mono);letter-spacing:1.5px;color:var(--accent)}
+  .hl-item{position:relative}.hl-item::after{content:"";position:absolute;right:0;top:18px;width:3px;height:28px;background:var(--accent);opacity:.2;transition:.2s}.hl-item:hover::after{opacity:1;height:50px}
+  .exp-card .ico{border-radius:0;transform:rotate(45deg);margin:5px 0 25px}.exp-card .ico svg{transform:rotate(-45deg)}
+  .tag,.chip,.metric{border-radius:2px}
+
+  /* CONFIDENTIAL PROJECT DOSSIERS */
+  .projects-grid{grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+  .projects-grid .proj{grid-column:span 6;min-height:330px;padding:31px;background:linear-gradient(150deg,rgba(17,24,33,.98),rgba(7,11,16,.98));clip-path:polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,0 100%)}
+  .projects-grid .proj:nth-child(4n+1){grid-column:span 7}.projects-grid .proj:nth-child(4n+2){grid-column:span 5}.projects-grid .proj:nth-child(4n+3){grid-column:span 5}.projects-grid .proj:nth-child(4n+4){grid-column:span 7}
+  .projects-grid .proj::after{content:"RESTRICTED / PORTFOLIO";position:absolute;right:21px;bottom:18px;font:500 6px var(--mono);letter-spacing:1.3px;color:rgba(255,255,255,.12)}
+  .projects-grid .proj::before{opacity:1;background:linear-gradient(90deg,var(--accent) 0 42px,transparent 42px);height:1px;bottom:auto}
+  .proj h3{font-size:clamp(1.2rem,2.1vw,1.65rem);max-width:78%}.project-index{font-size:7.6rem;right:16px;bottom:-4px;color:rgba(255,255,255,.028)}
+  .proj-cat{border-radius:1px}.filter{clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,0 100%)}
+  .filter.active{box-shadow:5px 5px 0 rgba(114,245,157,.09)}
+  .disclaimer{border-radius:2px;background:rgba(10,14,20,.65)}
+
+  /* FINAL CTA */
+  #contact{padding-top:80px}
+  .contact-box{border-radius:2px;clip-path:polygon(0 0,calc(100% - 45px) 0,100% 45px,100% 100%,45px 100%,0 calc(100% - 45px));padding:90px 40px;background:
+    radial-gradient(450px 250px at 50% 0,rgba(114,245,157,.16),transparent 72%),
+    linear-gradient(135deg,#101820,#070a0e)}
+  .contact-box::after{content:"A";position:absolute;left:50%;top:50%;transform:translate(-50%,-47%);font:700 24rem/.8 var(--display);color:transparent;-webkit-text-stroke:1px rgba(114,245,157,.035);pointer-events:none}
+  .contact-box h2{font-size:clamp(2.4rem,5.3vw,5rem);line-height:.95;letter-spacing:-3px;max-width:850px;margin:auto}
+  .contact-box p{max-width:610px}
+
+  @media(max-width:1080px){.hero>.wrap{padding:0 28px}.hero-grid{grid-template-columns:1fr 470px;gap:32px}.hero h1.hero-name{font-size:clamp(4rem,8vw,6.5rem)}}
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;min-height:auto}.hero{padding-top:64px}.security-orbit{margin:35px auto 0;max-width:590px}.orbit-caption{margin-top:-18px}.projects-grid .proj,.projects-grid .proj:nth-child(n){grid-column:span 12}.capability-tape{margin-top:10px}main>section:not(.hero){padding:95px 0}}
+  @media(max-width:640px){.wrap,.hero>.wrap{padding:0 18px}.hero h1.hero-name{font-size:clamp(3rem,14vw,4.2rem);letter-spacing:-4px}.hero h1.hero-name::after{height:4px;margin-top:13px}.hero-claim{font-size:1.8rem}.security-orbit{width:calc(100% + 16px);margin-left:-8px}.orbit-map{padding:26px}.orbit-data{transform:scale(.84)}.data-a{left:3%}.data-b{right:2%}.core-signature{width:82px;height:82px}.core-signature span{font-size:2.8rem}.orbit-caption{width:92%;font-size:11px}.strip{margin-top:48px}.st{padding:23px 8px}.capability-tape>div{animation-duration:18s}h2.sec{letter-spacing:-1.8px}.project-tools{align-items:flex-start;flex-direction:column}.proj-head{flex-direction:column-reverse}.proj-cat{align-self:flex-start}.projects-grid .proj{padding:24px;min-height:auto}.proj h3{max-width:100%}.project-index{font-size:5rem}.contact-box{padding:62px 20px}.contact-box h2{letter-spacing:-2px}.nav-in{height:62px}.brand span{font-size:14px}.lang button{padding:7px 8px}}
+  @media(prefers-reduced-motion:reduce){.orbit-halo,.scan-arm,.orbit-node circle,.orbit-pulse,.capability-tape>div{animation:none}.security-orbit{transform:none!important}}
 </style>
 </head>
 <body>
+
+<a class="skip" href="#main">Aller au contenu</a>
+<div class="cursor-glow" aria-hidden="true"></div>
+<button class="to-top" id="toTop" type="button" aria-label="Retour en haut">↑</button>
 
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="#top">
       <svg class="logo" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#111621" stroke="#1d2432"/><path d="M50 16l24 9v19c0 17-10 28-24 35-14-7-24-18-24-35V25z" fill="none" stroke="#4ade80" stroke-width="6" stroke-linejoin="round"/><path d="M39 50l8 8 15-17" fill="none" stroke="#4ade80" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span><b>Alessandro</b> Gagliardi</span>
+      <span><b>Alessandro</b></span>
     </a>
     <div class="nav-right">
       <nav class="links" id="menu">
@@ -279,42 +441,70 @@
         <button data-setlang="en">EN</button>
       </div>
       <a class="nav-cta" href="#contact" data-i18n="nav.cta">Contact →</a>
-      <button class="burger mono" id="burger" aria-label="Menu">≡</button>
+      <button class="burger mono" id="burger" aria-label="Ouvrir le menu" aria-controls="menu" aria-expanded="false">≡</button>
     </div>
   </div>
 </header>
 
 <a id="top"></a>
+<main id="main">
 <section class="hero">
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <div class="status reveal"><span class="dot"></span> <span data-i18n="hero.status">Disponible — missions sécurité &amp; DevSecOps · Lyon / remote</span></div>
-        <h1 class="reveal"><span data-i18n="hero.h1a">Je sécurise ce que</span><br><span class="grad" data-i18n="hero.h1b">les autres déploient.</span></h1>
+        <div class="eyebrow-row reveal">
+          <div class="status"><span class="dot"></span> <span data-i18n="hero.status">À l'écoute d'opportunités · 2026</span></div>
+          <div class="location"><span>⌖</span> Lyon · France / remote</div>
+        </div>
+        <div class="identity reveal">
+          <div class="identity-label" data-i18n="hero.identity">Cybersecurity engineer · portfolio</div>
+          <h1 class="hero-name">Alessandro<span>.</span></h1>
+        </div>
+        <h2 class="hero-claim reveal"><span data-i18n="hero.h1a">Je sécurise ce que</span><br><span class="grad" data-i18n="hero.h1b">les autres déploient.</span></h2>
         <div class="role mono reveal"><span data-i18n="hero.role">Cybersecurity Expert <span class="sep">·</span> DevSecOps <span class="sep">·</span> Pentest &amp; Audit <span class="sep">·</span> Web3</span></div>
-        <p class="lead reveal" data-i18n="hero.lead">Ingénieur sécurité <strong>offensive et défensive</strong>, sur de vraies infrastructures de production — pas seulement en CTF. J'audite selon <strong>OWASP</strong>, je durcis serveurs et SI, je chasse des vulnérabilités en bug bounty et j'audite des <strong>smart contracts</strong>. Chaque constat est documenté, scoré (CVSS/CWE) et corrigé.</p>
+        <p class="lead reveal" data-i18n="hero.lead">Ingénieur sécurité <strong>offensive et défensive</strong>, j'interviens de l'audit à la remédiation sur des environnements de production. AppSec, hardening, DevSecOps et <strong>smart contracts</strong> : chaque constat devient un plan d'action documenté, scoré et exploitable.</p>
         <div class="btns reveal">
-          <a class="btn primary" href="#preuves"><span data-i18n="hero.cta1">Voir mes réalisations</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          <a class="btn primary" href="#preuves"><span data-i18n="hero.cta1">Explorer mes réalisations</span>
+            <svg class="arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
           <a class="btn ghost" href="#contact" data-i18n="hero.cta2">Me contacter</a>
         </div>
+        <div class="hero-links reveal">
+          <a href="https://github.com/Pazificateur69" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.05 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.92-2.34 4.79-4.57 5.04.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg> github.com/Pazificateur69 ↗</a>
+          <span data-i18n="hero.signal">FR natif · EN C1 · IT B2</span>
+        </div>
       </div>
-      <div class="reveal">
-        <div class="term" aria-hidden="true">
-          <div class="term-bar"><i></i><i></i><i></i><span class="t">audit — production</span></div>
-          <div class="term-body">
-            <div class="l" style="animation-delay:.05s"><span class="p">$</span> whoami</div>
-            <div class="l" style="animation-delay:.35s"><span class="c">›</span> <span class="v">alessandro_gagliardi</span> — <span class="cy">cybersecurity_expert</span></div>
-            <div class="l" style="animation-delay:.65s"><span class="p">$</span> ./audit --scope <span class="v">production</span></div>
-            <div class="l" style="animation-delay:.95s"><span class="ok">[✓]</span> <span data-i18n="term.l1">20 risques priorisés · durcissement</span></div>
-            <div class="l" style="animation-delay:1.2s"><span class="ok">[✓]</span> Lynis 67 → 77/100</div>
-            <div class="l" style="animation-delay:1.45s"><span class="ok">[✓]</span> <span data-i18n="term.l2">9 CVE patchées · 0 downtime</span></div>
-            <div class="l" style="animation-delay:1.7s"><span class="ok">[✓]</span> <span data-i18n="term.l3">15 000+ IP bloquées</span></div>
-            <div class="l" style="animation-delay:1.95s"><span class="warn">[!]</span> <span data-i18n="term.l4">45 findings — OWASP / CWE / CVSS</span></div>
-            <div class="l" style="animation-delay:2.2s"><span class="p">$</span> status</div>
-            <div class="l" style="animation-delay:2.5s"><span class="c">›</span> <span class="ok" data-i18n="term.l5">disponible pour missions</span> <span class="cur"></span></div>
-          </div>
+      <div class="reveal hero-visual">
+        <div class="security-orbit" role="img" aria-label="Workflow de sécurité : auditer, attaquer, durcir et vérifier">
+          <div class="orbit-top"><span><i></i> SECURITY CORE / LIVE</span><span>SYS—A.01</span></div>
+          <svg class="orbit-map" viewBox="0 0 520 520" role="img" aria-hidden="true">
+            <defs>
+              <linearGradient id="orbitGradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#72f59d"/><stop offset="1" stop-color="#53c8fa"/></linearGradient>
+              <radialGradient id="coreGradient"><stop stop-color="#72f59d" stop-opacity=".24"/><stop offset="1" stop-color="#72f59d" stop-opacity="0"/></radialGradient>
+              <filter id="softGlow"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <circle class="orbit-halo" cx="260" cy="260" r="205"/>
+            <circle class="orbit-ring ring-1" cx="260" cy="260" r="166"/>
+            <circle class="orbit-ring ring-2" cx="260" cy="260" r="112"/>
+            <circle class="orbit-core-glow" cx="260" cy="260" r="88" fill="url(#coreGradient)"/>
+            <path class="orbit-cross" d="M260 24v472M24 260h472"/>
+            <path class="orbit-diagonal" d="M93 93l334 334M427 93L93 427"/>
+            <g class="scan-arm"><path d="M260 260L260 55"/><path class="scan-arc" d="M260 55a205 205 0 0 1 145 60"/></g>
+            <g class="orbit-node node-a"><circle cx="260" cy="54" r="7"/><circle cx="260" cy="54" r="17"/><text x="260" y="31">AUDIT</text></g>
+            <g class="orbit-node node-b"><circle cx="465" cy="260" r="7"/><circle cx="465" cy="260" r="17"/><text x="461" y="238">ATTACK</text></g>
+            <g class="orbit-node node-c"><circle cx="260" cy="466" r="7"/><circle cx="260" cy="466" r="17"/><text x="260" y="502">HARDEN</text></g>
+            <g class="orbit-node node-d"><circle cx="55" cy="260" r="7"/><circle cx="55" cy="260" r="17"/><text x="59" y="238">VERIFY</text></g>
+            <circle class="orbit-pulse" cx="260" cy="260" r="48"/>
+          </svg>
+          <div class="core-signature"><span>A</span><small>SECURE<br>BY DESIGN</small></div>
+          <div class="orbit-data data-a"><span>RISK INDEX</span><b>02.1</b><small>▼ HARDENED</small></div>
+          <div class="orbit-data data-b"><span>REMEDIATION</span><b>98%</b><small>▲ VERIFIED</small></div>
+          <div class="orbit-bottom"><span>OFFENSIVE × DEFENSIVE</span><span id="orbitTime">00:00:00 PAR</span></div>
+          <div class="orbit-corner corner-tl"></div><div class="orbit-corner corner-tr"></div><div class="orbit-corner corner-bl"></div><div class="orbit-corner corner-br"></div>
+        </div>
+        <div class="orbit-caption">
+          <span data-i18n="orbit.caption">Je ne livre pas une liste de failles.</span>
+          <strong data-i18n="orbit.strong">Je construis une trajectoire vers un système plus sûr.</strong>
         </div>
       </div>
     </div>
@@ -328,6 +518,7 @@
       <div class="st"><div class="n">2 <span class="u">frameworks</span></div><div class="l" data-i18n="stat.4">Sécurité open-source</div></div>
     </div>
   </div>
+  <div class="capability-tape" aria-hidden="true"><div><span>APPSEC</span><i>✦</i><span>DEVSECOPS</span><i>✦</i><span>OFFENSIVE SECURITY</span><i>✦</i><span>SMART CONTRACTS</span><i>✦</i><span>PRODUCTION HARDENING</span><i>✦</i><span>APPSEC</span><i>✦</i><span>DEVSECOPS</span><i>✦</i><span>OFFENSIVE SECURITY</span><i>✦</i></div></div>
 </section>
 
 <!-- POSTE ACTUEL -->
@@ -421,9 +612,21 @@
     <h2 class="sec reveal" data-i18n="proof.title">Des réalisations concrètes, documentées et scorées</h2>
     <p class="sec-lead reveal" data-i18n="proof.lead">Une sélection de missions et projets réels. Les clients et cibles sont anonymisés ; seuls les faits techniques et métriques vérifiables sont exposés.</p>
 
-    <div class="grid g-2" style="margin-top:44px">
+    <div class="project-tools reveal">
+      <div class="filters" role="group" aria-label="Filtrer les réalisations">
+        <button class="filter active" type="button" data-filter="all" data-i18n="filter.all">Tout voir</button>
+        <button class="filter" type="button" data-filter="production" data-i18n="filter.prod">Production</button>
+        <button class="filter" type="button" data-filter="offensive" data-i18n="filter.off">Offensif</button>
+        <button class="filter" type="button" data-filter="opensource" data-i18n="filter.os">Open-source</button>
+        <button class="filter" type="button" data-filter="web3" data-i18n="filter.web3">Web3 / Crypto</button>
+      </div>
+      <span class="project-count"><span id="visibleCount">6</span> / 12 <span data-i18n="filter.projects">réalisations</span></span>
+    </div>
 
-      <div class="card proj reveal">
+    <div class="grid g-2 projects-grid">
+
+      <div class="card proj reveal" data-project="production">
+        <span class="project-index">01</span>
         <div class="proj-head"><h3 data-i18n="p.1.t">Audit de sécurité applicatif full-stack</h3><span class="proj-cat off" data-i18n="cat.audit">Audit client</span></div>
         <p class="ctx" data-i18n="p.1.c">Audit complet d'un éditeur SaaS mobile (back Laravel/PHP, front Angular-Ionic). Revue de code manuelle + analyse dynamique, rapport et devis de remédiation livrés.</p>
         <div class="metrics"><span class="metric"><b>45</b> <span data-i18n="m.vulns">vulnérabilités</span></span><span class="metric">OWASP · CWE · CVSS</span><span class="metric"><span data-i18n="m.score">Note</span> <b>2 / 10</b></span></div>
@@ -431,14 +634,16 @@
         <div class="foot"><span class="tag" data-i18n="p.1.f1">Élévation de privilèges</span><span class="tag">BOLA / IDOR</span><span class="tag" data-i18n="p.1.f2">Secrets exposés</span><span class="tag" data-i18n="p.1.f3">Risque RGPD chiffré</span></div>
       </div>
 
-      <div class="card proj reveal">
+      <div class="card proj reveal" data-project="production">
+        <span class="project-index">02</span>
         <div class="proj-head"><h3 data-i18n="p.2.t">Hardening d'un serveur de production</h3><span class="proj-cat def" data-i18n="cat.def">Défense</span></div>
         <p class="ctx" data-i18n="p.2.c">Audit de risques puis durcissement en profondeur d'un serveur Linux critique : SSH, WAF, segmentation, détection d'intrusion et gestion des vulnérabilités.</p>
         <div class="metrics"><span class="metric"><b>20</b> <span data-i18n="m.risks">risques traités</span></span><span class="metric">Lynis <b>67 → 77</b></span><span class="metric"><b>9</b> <span data-i18n="m.cve">CVE à chaud</span></span><span class="metric"><b>15 000+</b> <span data-i18n="m.ips">IP bloquées</span></span></div>
         <div class="foot"><span class="tag">ModSecurity + CRS</span><span class="tag">CrowdSec / Fail2ban</span><span class="tag" data-i18n="p.2.f1">Durcissement Docker</span><span class="tag">RGPD art. 32</span></div>
       </div>
 
-      <div class="card proj reveal">
+      <div class="card proj reveal" data-project="offensive">
+        <span class="project-index">03</span>
         <div class="proj-head"><h3 data-i18n="p.3.t">Bug bounty — opérateur télécom</h3><span class="proj-cat off" data-i18n="cat.off">Offensif</span></div>
         <p class="ctx" data-i18n="p.3.c">Chasse coordonnée sur le périmètre d'un grand opérateur télécom (programme privé). Reconnaissance à grande échelle puis exploitation de deux failles à fort impact.</p>
         <div class="metrics"><span class="metric"><b>529</b> <span data-i18n="m.subs">sous-domaines</span></span><span class="metric"><b>136</b> <span data-i18n="m.endpoints">endpoints exposés</span></span></div>
@@ -446,69 +651,82 @@
         <div class="foot"><span class="tag" data-i18n="p.3.f1">Exposition OpenAPI/Swagger</span><span class="tag" data-i18n="p.3.f2">Bypass d'authentification</span><span class="tag">subfinder / httpx</span></div>
       </div>
 
-      <div class="card proj reveal">
+      <div class="card proj reveal" data-project="offensive">
+        <span class="project-index">04</span>
         <div class="proj-head"><h3 data-i18n="p.4.t">Bug bounty — plateforme fintech</h3><span class="proj-cat off" data-i18n="cat.off2">Offensif</span></div>
         <p class="ctx" data-i18n="p.4.c">Évaluation pré-authentification d'une fintech au périmètre bien durci. Démarche rigoureuse : les résultats négatifs sont documentés au même titre que les découvertes.</p>
         <div class="metrics"><span class="metric"><b>551</b> <span data-i18n="m.subs2">sous-domaines</span></span><span class="metric"><b>27 000+</b> URLs</span><span class="metric"><b>5</b> + <b>6</b> <span data-i18n="m.neg">négatifs</span></span></div>
         <div class="foot"><span class="tag" data-i18n="p.4.f1">Fuite d'infos (__NEXT_DATA__)</span><span class="tag" data-i18n="p.4.f2">Analyse JS</span><span class="tag" data-i18n="p.4.f3">Jugement analytique</span></div>
       </div>
 
-      <div class="card proj reveal">
+      <div class="card proj reveal" data-project="opensource offensive">
+        <span class="project-index">05</span>
         <div class="proj-head"><h3 data-i18n="p.5.t">T3MP3ST — framework offensif piloté par IA</h3><span class="proj-cat tool" data-i18n="cat.os">Open-source</span></div>
         <p class="ctx" data-i18n="p.5.c">Framework (TypeScript/Node) transformant un agent IA en chasseur de vulnérabilités : kill-chain à 8 opérateurs mappée sur MITRE ATT&amp;CK, War Room web, CLI, serveur MCP. Claims reproductibles via un harness de vérification.</p>
         <div class="metrics"><span class="metric">XBEN <b>90,1 %</b></span><span class="metric">Cybench <b>23/40</b></span><span class="metric">CVE-Zero <b>8/10</b></span></div>
         <div class="foot"><span class="tag">MITRE ATT&amp;CK</span><span class="tag">MCP</span><span class="tag" data-i18n="p.5.f1">Containment de scope</span><span class="tag">AGPL-3.0</span></div>
       </div>
 
-      <div class="card proj reveal">
+      <div class="card proj reveal" data-project="opensource offensive">
+        <span class="project-index">06</span>
         <div class="proj-head"><h3 data-i18n="p.6.t">NightOwl — framework de pentest</h3><span class="proj-cat tool" data-i18n="cat.os2">Open-source</span></div>
         <p class="ctx" data-i18n="p.6.c">Framework de test d'intrusion en Python (~79 modules : recon, web, réseau, exploit, post-exploit). Pipeline unifié, scoring de confiance, benchmarks reproductibles.</p>
         <div class="metrics"><span class="metric"><b>~79</b> modules</span><span class="metric">DVWA · Juice Shop · WebGoat</span></div>
         <div class="foot"><span class="tag">Python 3.11</span><span class="tag" data-i18n="p.6.f1">Recon DNS / ports / WAF</span><span class="tag">JWT / HTTP smuggling</span><span class="tag">MIT</span></div>
       </div>
 
-      <div class="card proj reveal">
+      <div class="card proj reveal" data-project="web3">
+        <span class="project-index">07</span>
         <div class="proj-head"><h3 data-i18n="p.7.t">Audit de smart contract — Code4rena</h3><span class="proj-cat web3">Web3</span></div>
         <p class="ctx" data-i18n="p.7.c">Participation à un contest d'audit public (protocole de prêt Stellar/Soroban en Rust — prize pool 135 000 USDC). Analyse différentielle face aux rapports de trois cabinets pros.</p>
         <div class="metrics"><span class="metric">1 finding <b>Medium → High</b></span><span class="metric">PoC <b>« RUNS GREEN »</b></span></div>
         <div class="foot"><span class="tag" data-i18n="p.7.f1">Bypass MAX_USER_RESERVES → DoS</span><span class="tag">Rust / Soroban</span><span class="tag" data-i18n="p.7.f2">Modèle Aave V3</span></div>
       </div>
 
-      <div class="card proj reveal">
+      <div class="card proj reveal" data-project="offensive">
+        <span class="project-index">08</span>
         <div class="proj-head"><h3 data-i18n="p.8.t">CTF industriel — ICS / SCADA (OPC-UA)</h3><span class="proj-cat off">CTF · OT</span></div>
         <p class="ctx" data-i18n="p.8.c">Résolution d'un challenge de sécurité des systèmes industriels sur OPC-UA (IEC 62541) : authentification par certificat client X.509, chiffrement, extraction du flag.</p>
         <div class="metrics"><span class="metric">Auth <b>X.509</b> · Sign &amp; Encrypt</span><span class="metric" data-i18n="p.8.m">Niche OT / ICS</span></div>
         <div class="foot"><span class="tag">OPC-UA / IEC 62541</span><span class="tag">PKI / RSA 2048</span><span class="tag">Python</span><span class="tag">Root-Me</span></div>
       </div>
 
-      <div class="card proj reveal">
+      <div class="card proj reveal" data-project="offensive">
+        <span class="project-index">09</span>
         <div class="proj-head"><h3 data-i18n="p.9.t">Boot2root + attaque adversariale ML</h3><span class="proj-cat off" data-i18n="cat.offai">Offensif · IA</span></div>
         <p class="ctx" data-i18n="p.9.c">Compromission complète d'une machine de lab (recon → clé exposée → SSH → escalade jusqu'à root) et attaque adversariale ciblée contre un classifieur PyTorch, sous contrainte de budget L1.</p>
         <div class="metrics"><span class="metric" data-i18n="p.9.m1">Escalade jusqu'à root</span><span class="metric">Carlini-Wagner (L1)</span></div>
         <div class="foot"><span class="tag">gobuster / netdiscover</span><span class="tag">Privesc</span><span class="tag">PyTorch</span><span class="tag" data-i18n="p.9.f1">Sécurité de l'IA</span></div>
       </div>
 
-      <div class="card proj reveal">
+      <div class="card proj reveal" data-project="production">
+        <span class="project-index">10</span>
         <div class="proj-head"><h3 data-i18n="p.10.t">Infrastructure sécurisée « as code »</h3><span class="proj-cat def">Infra</span></div>
         <p class="ctx" data-i18n="p.10.c">Déploiement d'un SI virtualisé, segmenté et supervisé : parc de VM isolées derrière un pare-feu, supervision centralisée et automatisation complète par IaC.</p>
         <div class="metrics"><span class="metric">OPNsense</span><span class="metric">Centreon</span><span class="metric">Ansible</span></div>
         <div class="foot"><span class="tag">Proxmox VE</span><span class="tag" data-i18n="p.10.f1">Réseau isolé</span><span class="tag" data-i18n="p.10.f2">Défense en profondeur</span></div>
       </div>
 
-      <div class="card proj reveal">
+      <div class="card proj reveal" data-project="web3 opensource">
+        <span class="project-index">11</span>
         <div class="proj-head"><h3 data-i18n="p.11.t">Blockchain L1 post-quantique (from scratch)</h3><span class="proj-cat web3" data-i18n="cat.crypto">Cryptographie</span></div>
         <p class="ctx" data-i18n="p.11.c">Blockchain Layer-1 en Rust résistante au quantique, conforme NIST : signatures CRYSTALS-Dilithium, hachage SHA-3, consensus BFT PoS. Testnet multi-validateurs fonctionnel.</p>
         <div class="metrics"><span class="metric"><b>~31 400</b> <span data-i18n="m.loc">lignes Rust</span></span><span class="metric"><b>145</b> tests</span><span class="metric">Dilithium <b>L5</b></span></div>
         <div class="foot"><span class="tag" data-i18n="p.11.f1">Post-quantique (FIPS 204/202)</span><span class="tag" data-i18n="p.11.f2">Consensus BFT</span><span class="tag">VM WASM + EVM</span></div>
       </div>
 
-      <div class="card proj reveal">
+      <div class="card proj reveal" data-project="web3 opensource">
+        <span class="project-index">12</span>
         <div class="proj-head"><h3 data-i18n="p.12.t">AuditorKit — outillage d'audit smart contracts</h3><span class="proj-cat tool" data-i18n="cat.prod">Produit</span></div>
         <p class="ctx" data-i18n="p.12.c">Kit méthodologique et outillé pour l'audit de contrats Solidity : scanner statique + IA en Python, templates de tests, checklist de vulnérabilités et exploits historiques annotés.</p>
         <div class="metrics"><span class="metric"><b>26</b> modules</span><span class="metric" data-i18n="p.12.m1">Checklist 80+ vulns</span><span class="metric" data-i18n="p.12.m2">10 PoC historiques</span></div>
         <div class="foot"><span class="tag" data-i18n="p.12.f1">Scanner Python</span><span class="tag">Templates Foundry</span><span class="tag" data-i18n="p.12.f2">Multi-chaînes</span></div>
       </div>
 
+    </div>
+
+    <div class="projects-more reveal">
+      <button class="btn ghost" id="toggleProjects" type="button"><span data-i18n="filter.more">Voir les 12 réalisations</span><span aria-hidden="true">↓</span></button>
     </div>
 
     <div class="disclaimer reveal">
@@ -595,12 +813,12 @@
   <div class="wrap">
     <div class="contact-box reveal">
       <div class="kicker mono" style="justify-content:center;display:flex"><span data-i18n="contact.kicker">05 — Contact</span></div>
-      <h2 data-i18n="contact.title">Un audit, un pentest, une infra à sécuriser ?</h2>
-      <p data-i18n="contact.lead">Missions de sécurité offensive, défensive ou DevSecOps — audit ponctuel, chasse de vulnérabilités ou durcissement d'infrastructure. Écrivez-moi, je réponds sous 48 h.</p>
+      <h2 data-i18n="contact.title">Vous cherchez quelqu'un qui sécurise — et qui livre ?</h2>
+      <p data-i18n="contact.lead">Je suis à l'écoute d'opportunités en AppSec, DevSecOps et sécurité offensive. Parlons de votre équipe, de vos enjeux et de ce que je peux concrètement apporter. Réponse sous 48 h.</p>
       <div class="contact-actions">
-        <a class="btn primary" href="mailto:agencenetstrategy@gmail.com?subject=Mission%20s%C3%A9curit%C3%A9">
+        <a class="btn primary" href="mailto:agencenetstrategy@gmail.com?subject=Opportunit%C3%A9%20cybers%C3%A9curit%C3%A9">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-          <span data-i18n="contact.cta1">Envoyer un email</span>
+          <span data-i18n="contact.cta1">Démarrer la conversation</span>
         </a>
         <a class="btn ghost" href="https://github.com/Pazificateur69" target="_blank" rel="noopener">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.05 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.92-2.34 4.79-4.57 5.04.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg>
@@ -610,10 +828,11 @@
     </div>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="wrap foot-in">
-    <div>© 2026 Alessandro Gagliardi — <span class="accent">Pazificateur</span></div>
+    <div>© 2026 Alessandro — <span class="accent">Pazificateur</span></div>
     <div class="mono" data-i18n="foot.tag">Cybersecurity Expert · DevSecOps · Web3</div>
     <div><a href="https://github.com/Pazificateur69" target="_blank" rel="noopener">github.com/Pazificateur69</a></div>
   </div>
@@ -623,11 +842,13 @@
   var I18N = {
     en: {
       "nav.role":"Current role","nav.expertise":"Expertise","nav.proof":"Work","nav.stack":"Stack","nav.path":"Background","nav.contact":"Contact","nav.cta":"Contact →",
-      "hero.status":"Available — security &amp; DevSecOps engagements · Lyon / remote",
+      "hero.status":"Open to opportunities · 2026",
+      "hero.identity":"Cybersecurity engineer · portfolio",
       "hero.h1a":"I secure what","hero.h1b":"others ship.",
       "hero.role":"Cybersecurity Expert <span class='sep'>·</span> DevSecOps <span class='sep'>·</span> Pentest &amp; Audit <span class='sep'>·</span> Web3",
-      "hero.lead":"<strong>Offensive and defensive</strong> security engineer — on real production infrastructure, not just CTFs. I audit against <strong>OWASP</strong>, harden servers and systems, hunt vulnerabilities in bug bounty and audit <strong>smart contracts</strong>. Every finding is documented, scored (CVSS/CWE) and remediated.",
-      "hero.cta1":"See my work","hero.cta2":"Get in touch",
+      "hero.lead":"<strong>Offensive and defensive</strong> security engineer, working from audit through remediation in production environments. AppSec, hardening, DevSecOps and <strong>smart contracts</strong>: every finding becomes a documented, scored and actionable plan.",
+      "hero.cta1":"Explore my work","hero.cta2":"Get in touch","hero.signal":"Native FR · EN C1 · IT B2",
+      "orbit.caption":"I don't deliver a list of flaws.","orbit.strong":"I build a path toward a safer system.",
       "term.l1":"20 prioritized risks · hardening","term.l2":"9 CVEs patched · 0 downtime","term.l3":"15,000+ IPs blocked","term.l4":"45 findings — OWASP / CWE / CVSS","term.l5":"available for engagements",
       "stat.1":"Full application audit","stat.2":"Vulns · internal portfolio","stat.3":"Live-patched, 0 downtime","stat.4":"Open-source security frameworks",
       "role.kicker":"00 — Current role","role.title":"Cybersecurity Expert — in post","role.lead":"Responsible for securing the production infrastructure and application portfolio of a digital marketing agency.",
@@ -645,6 +866,7 @@
       "exp.3.t":"Web3 &amp; Smart Contract audit","exp.3.p":"Solidity / Rust contract review, Code4rena contests, static analysis, post-quantum cryptography.",
       "exp.4.t":"Governance &amp; Compliance","exp.4.p":"EBIOS RM risk analysis, GDPR compliance, MITRE ATT&amp;CK threat modeling, applied cryptography.",
       "proof.kicker":"02 — Evidence","proof.title":"Concrete work — documented and scored","proof.lead":"A selection of real missions and projects. Clients and targets are anonymized; only verifiable technical facts and metrics are shown.",
+      "filter.all":"View all","filter.prod":"Production","filter.off":"Offensive","filter.os":"Open-source","filter.web3":"Web3 / Crypto","filter.projects":"projects","filter.more":"View all 12 projects","filter.less":"Show selected projects",
       "cat.audit":"Client audit","cat.def":"Defense","cat.off":"Offensive","cat.off2":"Offensive","cat.os":"Open-source","cat.os2":"Open-source","cat.offai":"Offensive · AI","cat.crypto":"Cryptography","cat.prod":"Product",
       "m.vulns":"vulnerabilities","m.score":"Rating","m.risks":"risks handled","m.cve":"live CVEs","m.ips":"IPs blocked","m.subs":"subdomains","m.endpoints":"exposed endpoints","m.subs2":"subdomains","m.neg":"negatives","m.loc":"lines of Rust",
       "sev.crit":"critical","sev.high":"high","sev.med":"med./low",
@@ -669,7 +891,7 @@
       "path.e3.t":"SEO Consultant / Developer","path.e3.o":"E-commerce agency · Lyon area","path.e3.p":"Shopify / WordPress development, Python / JS automation, web performance.",
       "edu.title":"Education &amp; certifications","edu.1.t":"Bachelor in Cybersecurity (Bac+3)","edu.1.s":"3rd year — in progress","edu.2.t":"RNCP Level 6 — Secure Infrastructure Administrator","edu.2.y":"2026 session","edu.2.s":"In progress","edu.3.t":"French Baccalauréat — Maths / Physics-Chemistry","edu.3.sub":"Advanced Maths option","edu.3.s":"Obtained",
       "rep.title":"At a glance","rep.loc":"location","rep.lang":"languages","rep.native":"native","rep.focus":"focus",
-      "contact.kicker":"05 — Contact","contact.title":"An audit, a pentest, an infra to secure?","contact.lead":"Offensive, defensive or DevSecOps security engagements — one-off audit, vulnerability hunting or infrastructure hardening. Write to me, I reply within 48h.","contact.cta1":"Send an email","contact.cta2":"See my projects",
+      "contact.kicker":"05 — Contact","contact.title":"Looking for someone who secures — and ships?","contact.lead":"I am open to opportunities in AppSec, DevSecOps and offensive security. Let's talk about your team, your challenges and the concrete value I can bring. I reply within 48h.","contact.cta1":"Start a conversation","contact.cta2":"See my projects",
       "foot.tag":"Cybersecurity Expert · DevSecOps · Web3"
     }
   };
@@ -677,6 +899,7 @@
   var current = 'fr';
   var nodes = document.querySelectorAll('[data-i18n]');
   nodes.forEach(function(n){ FR[n.getAttribute('data-i18n')] = n.innerHTML; });
+  FR['filter.less'] = 'Réduire la sélection';
   I18N.fr = FR;
   function setLang(lang){
     if(!I18N[lang]) return;
@@ -698,13 +921,75 @@
   try{ saved = localStorage.getItem('lang'); }catch(e){}
   if(saved && saved !== 'fr') setLang(saved);
 
+  // recruiter-friendly project filters
+  var projectCards=Array.prototype.slice.call(document.querySelectorAll('[data-project]'));
+  var filterButtons=Array.prototype.slice.call(document.querySelectorAll('[data-filter]'));
+  var toggleProjects=document.getElementById('toggleProjects');
+  var visibleCount=document.getElementById('visibleCount');
+  var expanded=false,currentFilter='all';
+  function renderProjects(){
+    var matching=projectCards.filter(function(card){return currentFilter==='all'||card.getAttribute('data-project').split(' ').indexOf(currentFilter)>-1});
+    projectCards.forEach(function(card){
+      var match=matching.indexOf(card)>-1;
+      var withinLimit=currentFilter!=='all'||expanded||matching.indexOf(card)<6;
+      card.classList.toggle('is-hidden',!(match&&withinLimit));
+    });
+    var shown=matching.filter(function(card){return !card.classList.contains('is-hidden')}).length;
+    if(visibleCount) visibleCount.textContent=shown;
+    if(toggleProjects){
+      toggleProjects.parentElement.style.display=currentFilter==='all'?'flex':'none';
+      var label=toggleProjects.querySelector('[data-i18n]');
+      var key=expanded?'filter.less':'filter.more';
+      label.setAttribute('data-i18n',key);
+      label.innerHTML=(I18N[current]&&I18N[current][key])||I18N.fr[key];
+      toggleProjects.lastElementChild.textContent=expanded?'↑':'↓';
+    }
+  }
+  filterButtons.forEach(function(button){button.addEventListener('click',function(){
+    currentFilter=button.getAttribute('data-filter');
+    filterButtons.forEach(function(b){b.classList.toggle('active',b===button)});
+    renderProjects();
+  })});
+  toggleProjects&&toggleProjects.addEventListener('click',function(){expanded=!expanded;renderProjects()});
+  renderProjects();
+
   // burger
   var burger=document.getElementById('burger'),menu=document.getElementById('menu');
-  burger&&burger.addEventListener('click',function(){menu.classList.toggle('open')});
-  menu&&menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open')})});
+  burger&&burger.addEventListener('click',function(){var open=menu.classList.toggle('open');burger.setAttribute('aria-expanded',open?'true':'false');burger.setAttribute('aria-label',open?'Fermer le menu':'Ouvrir le menu')});
+  menu&&menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open');burger.setAttribute('aria-expanded','false')})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classList.contains('open')){menu.classList.remove('open');burger.setAttribute('aria-expanded','false');burger.focus()}});
   // reveal
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
   document.querySelectorAll('.reveal').forEach(function(el,i){el.style.transitionDelay=(Math.min(i,6)*40)+'ms';io.observe(el)});
+
+  // active section in the navigation
+  var navLinks=Array.prototype.slice.call(document.querySelectorAll('nav.links a[href^="#"]'));
+  var sectionObserver=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){if(entry.isIntersecting){
+      navLinks.forEach(function(link){var active=link.getAttribute('href')==='#'+entry.target.id;link.classList.toggle('active',active);if(active)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current')});
+    }});
+  },{rootMargin:'-28% 0px -62% 0px',threshold:0});
+  document.querySelectorAll('main section[id]').forEach(function(section){sectionObserver.observe(section)});
+
+  // subtle interactive light + scroll progress
+  document.addEventListener('pointermove',function(e){
+    document.documentElement.style.setProperty('--mx',e.clientX+'px');
+    document.documentElement.style.setProperty('--my',e.clientY+'px');
+    var card=e.target.closest&&e.target.closest('.card');
+    if(card){var r=card.getBoundingClientRect();card.style.setProperty('--x',(e.clientX-r.left)+'px');card.style.setProperty('--y',(e.clientY-r.top)+'px')}
+  });
+  var orbit=document.querySelector('.security-orbit');
+  if(orbit&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    orbit.addEventListener('pointermove',function(e){var r=orbit.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;orbit.style.setProperty('--oy',(x*5)+'deg');orbit.style.setProperty('--ox',(-y*5)+'deg')});
+    orbit.addEventListener('pointerleave',function(){orbit.style.setProperty('--oy','0deg');orbit.style.setProperty('--ox','0deg')});
+  }
+  var orbitTime=document.getElementById('orbitTime');
+  function updateOrbitTime(){if(orbitTime)orbitTime.textContent=new Intl.DateTimeFormat('fr-FR',{timeZone:'Europe/Paris',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date())+' PAR'}
+  updateOrbitTime();setInterval(updateOrbitTime,1000);
+  var toTop=document.getElementById('toTop');
+  function updateScroll(){var max=document.documentElement.scrollHeight-innerHeight;document.querySelector('header.nav').style.setProperty('--scroll',(max>0?scrollY/max*100:0)+'%');toTop.classList.toggle('show',scrollY>700)}
+  addEventListener('scroll',updateScroll,{passive:true});updateScroll();
+  toTop.addEventListener('click',function(){scrollTo({top:0,behavior:'smooth'})});
 </script>
 </body>
 </html>
