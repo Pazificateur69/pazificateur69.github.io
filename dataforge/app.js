@@ -6,6 +6,7 @@ state.qcmAnswers ||= {};
 state.qcmBest ||= 0;
 state.flashMastered ||= {};
 state.oralMastered ||= {};
+state.chronoMastered ||= {};
 
 let qcmPool = [...qcm];
 let qcmIndex = 0;
@@ -16,6 +17,9 @@ let flashIndex = 0;
 let flashOrder = [...Array(flashcards.length).keys()].sort(() => Math.random() - 0.5);
 let oralIndex = 0;
 let oralRevealed = false;
+let chronoIndex = 0;
+let chronoSeconds = 60;
+let chronoTimer = null;
 
 function save() {
   localStorage.setItem(storageKey, JSON.stringify(state));
@@ -32,6 +36,7 @@ function updateStats() {
 }
 
 function showView(name) {
+  if (name !== "chrono") stopChrono(false);
   document.querySelectorAll(".view").forEach((view) => view.classList.toggle("active", view.id === "view-" + name));
   document.querySelectorAll(".nav-link").forEach((button) => button.classList.toggle("active", button.dataset.view === name));
   $("main-nav").classList.remove("open");
@@ -211,6 +216,123 @@ $("flash-next").addEventListener("click", () => moveFlash(1));
 $("flash-retry").addEventListener("click", () => { state.flashMastered[flashOrder[flashIndex]] = false; save(); moveFlash(1); });
 $("flash-mastered").addEventListener("click", () => { state.flashMastered[flashOrder[flashIndex]] = true; save(); moveFlash(1); });
 
+function formatChrono(seconds) {
+  return `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
+}
+
+function stopChrono(reset = false) {
+  if (chronoTimer !== null) {
+    clearInterval(chronoTimer);
+    chronoTimer = null;
+  }
+  if (reset) chronoSeconds = 60;
+  if ($("chrono-countdown")) $("chrono-countdown").textContent = formatChrono(chronoSeconds);
+  if ($("chrono-start")) $("chrono-start").textContent = chronoSeconds === 60 ? "▶ Démarrer 60 s" : "▶ Reprendre";
+  document.body.classList.remove("chrono-running");
+}
+
+function renderChronoProgress() {
+  const progress = $("chrono-progress");
+  progress.innerHTML = "";
+  minuteCards.forEach((card, index) => {
+    const button = document.createElement("button");
+    const value = state.chronoMastered[card.id];
+    button.type = "button";
+    button.className = `chrono-dot${index === chronoIndex ? " active" : ""}${value === true ? " mastered" : value === false ? " retry" : ""}`;
+    button.textContent = String(index + 1);
+    button.title = `${card.range} · ${card.title}`;
+    button.setAttribute("aria-label", `Minute ${index + 1}, ${value === true ? "maîtrisée" : value === false ? "à revoir" : "non évaluée"}`);
+    button.addEventListener("click", () => goChrono(index));
+    progress.appendChild(button);
+  });
+}
+
+function renderChrono() {
+  const item = minuteCards[chronoIndex];
+  const mastery = state.chronoMastered[item.id];
+  const masteredCount = Object.values(state.chronoMastered).filter((value) => value === true).length;
+  $("chrono-counter").textContent = `Minute ${chronoIndex + 1} / ${minuteCards.length}`;
+  $("chrono-mastery").textContent = `${masteredCount} maîtrisée${masteredCount > 1 ? "s" : ""}`;
+  $("chrono-jump").value = String(chronoIndex);
+  $("minute-range").textContent = item.range;
+  $("minute-status").textContent = mastery === true ? "Maîtrisée" : mastery === false ? "À revoir" : "À travailler";
+  $("minute-status").className = mastery === true ? "is-mastered" : mastery === false ? "is-retry" : "";
+  $("minute-title").textContent = item.title;
+
+  $("minute-script").innerHTML = item.segments.map((segment) => `
+    <div class="speech-segment">
+      <div><span>SLIDE ${segment.slide}</span><strong>${segment.seconds} s</strong></div>
+      <p>${segment.text}</p>
+    </div>`).join("");
+  $("minute-points").innerHTML = item.points.map((point) => `<li>${point}</li>`).join("");
+  $("minute-definitions").innerHTML = item.definitions.map((definition) => `<div><dt>${definition.term}</dt><dd>${definition.detail}</dd></div>`).join("");
+  $("minute-competencies").innerHTML = item.competencies.map((competency) => `<div class="competency-row"><span>${competency.code}</span><p>${competency.label}</p></div>`).join("");
+  $("minute-transition").textContent = item.transition;
+  $("minute-traps").innerHTML = item.traps.map((trap) => `<p>${trap}</p>`).join("");
+  $("minute-slides").innerHTML = item.slides.map((slide) => `
+    <figure class="minute-slide">
+      <button class="slide-preview-button" type="button" aria-label="Agrandir la slide ${slide.number}">
+        <img src="${slide.image}" alt="Slide ${slide.number} — ${slide.title}" width="720" height="405" loading="lazy">
+        <span class="slide-zoom-hint">Agrandir ↗</span>
+      </button>
+      <figcaption><span>SLIDE ${slide.number}</span><strong>${slide.from} → ${slide.to}</strong><p>${slide.title}</p></figcaption>
+    </figure>`).join("");
+  $("minute-slides").querySelectorAll(".slide-preview-button").forEach((button) => button.addEventListener("click", () => button.classList.toggle("expanded")));
+  renderChronoProgress();
+}
+
+function goChrono(index) {
+  stopChrono(true);
+  chronoIndex = Math.max(0, Math.min(minuteCards.length - 1, Number(index)));
+  renderChrono();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function moveChrono(delta) {
+  goChrono((chronoIndex + Number(delta) + minuteCards.length) % minuteCards.length);
+}
+
+function toggleChrono() {
+  if (chronoTimer !== null) {
+    stopChrono(false);
+    return;
+  }
+  if (chronoSeconds <= 0) chronoSeconds = 60;
+  $("chrono-start").textContent = "Ⅱ Pause";
+  document.body.classList.add("chrono-running");
+  chronoTimer = setInterval(() => {
+    chronoSeconds -= 1;
+    $("chrono-countdown").textContent = formatChrono(chronoSeconds);
+    if (chronoSeconds <= 0) {
+      stopChrono(true);
+      if (chronoIndex < minuteCards.length - 1) moveChrono(1);
+      else renderChrono();
+    }
+  }, 1000);
+}
+
+minuteCards.forEach((card, index) => {
+  const option = document.createElement("option");
+  option.value = String(index);
+  option.textContent = `${String(index + 1).padStart(2, "0")} · ${card.range} · ${card.title}`;
+  $("chrono-jump").appendChild(option);
+});
+$("chrono-jump").addEventListener("change", (event) => goChrono(Number(event.target.value)));
+$("chrono-start").addEventListener("click", toggleChrono);
+$("chrono-reset").addEventListener("click", () => stopChrono(true));
+$("chrono-prev").addEventListener("click", () => moveChrono(-1));
+$("chrono-next").addEventListener("click", () => moveChrono(1));
+$("chrono-retry").addEventListener("click", () => { state.chronoMastered[minuteCards[chronoIndex].id] = false; save(); renderChrono(); });
+$("chrono-mastered").addEventListener("click", () => { state.chronoMastered[minuteCards[chronoIndex].id] = true; save(); if (chronoIndex < minuteCards.length - 1) moveChrono(1); else renderChrono(); });
+
+document.addEventListener("keydown", (event) => {
+  if (!$("view-chrono").classList.contains("active") || ["INPUT", "SELECT", "TEXTAREA"].includes(document.activeElement.tagName)) return;
+  if (event.key === "ArrowLeft") moveChrono(-1);
+  if (event.key === "ArrowRight") moveChrono(1);
+  if (event.code === "Space") { event.preventDefault(); toggleChrono(); }
+  if (event.key === "Escape") document.querySelectorAll(".slide-preview-button.expanded").forEach((button) => button.classList.remove("expanded"));
+});
+
 function renderOral() {
   const item = oralQuestions[oralIndex];
   $("oral-tag").textContent = item[0];
@@ -235,5 +357,6 @@ populateQcmFilters();
 renderSheets();
 renderQcm();
 renderFlash();
+renderChrono();
 renderOral();
 updateStats();

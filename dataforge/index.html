@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Révision interactive RNCP 37680 AIS — projet DataForge Industries">
   <title>DataForge · Révisions RNCP 37680</title>
-  <link rel="stylesheet" href="styles.css?v=4">
-  <link rel="stylesheet" href="dark.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="dark.css?v=5">
+  <link rel="stylesheet" href="chrono.css?v=5">
 </head>
 <body>
   <div class="app-shell">
@@ -21,6 +22,7 @@
         <button class="nav-link" data-view="fiches">Fiches</button>
         <button class="nav-link" data-view="qcm">QCM</button>
         <button class="nav-link" data-view="flashcards">Flashcards</button>
+        <button class="nav-link" data-view="chrono">Speech 40 min</button>
         <button class="nav-link" data-view="oral">Oral blanc</button>
       </nav>
     </header>
@@ -35,6 +37,7 @@
             <div class="hero-actions">
               <button class="button primary" data-view="qcm">Lancer le QCM <span>→</span></button>
               <button class="button ghost" data-view="fiches">Explorer les fiches</button>
+              <button class="button ghost" data-view="chrono">Répéter le speech</button>
             </div>
           </div>
           <div class="hero-orbit" aria-hidden="true">
@@ -112,6 +115,87 @@
         </div>
       </section>
 
+      <section class="view" id="view-chrono" aria-labelledby="chrono-title">
+        <div class="section-header compact chrono-heading">
+          <div>
+            <p class="eyebrow">40 CARTES · 40 MINUTES · 30 SLIDES</p>
+            <h1 id="chrono-title">Speech chronométré</h1>
+            <p class="section-intro">Une carte par minute avec le texte exact à dire, les visuels, les définitions, les points clés et les compétences RNCP à défendre.</p>
+          </div>
+          <div class="chrono-summary">
+            <strong id="chrono-counter">Minute 1 / 40</strong>
+            <span id="chrono-mastery">0 maîtrisée</span>
+          </div>
+        </div>
+
+        <div class="chrono-toolbar panel">
+          <div class="chrono-timebox" aria-live="polite">
+            <span>CHRONO DE LA CARTE</span>
+            <strong id="chrono-countdown">01:00</strong>
+          </div>
+          <button class="button primary" id="chrono-start" type="button">▶ Démarrer 60 s</button>
+          <button class="button ghost" id="chrono-reset" type="button">↺ Remettre à zéro</button>
+          <label class="chrono-jump-label" for="chrono-jump">Aller à la minute
+            <select id="chrono-jump" aria-label="Choisir une minute du speech"></select>
+          </label>
+        </div>
+
+        <div class="chrono-progress" id="chrono-progress" aria-label="Progression des 40 minutes"></div>
+
+        <article class="minute-card panel" aria-live="polite">
+          <div class="minute-content">
+            <div class="minute-kicker">
+              <span id="minute-range">00:00–01:00</span>
+              <span id="minute-status">À travailler</span>
+            </div>
+            <h2 id="minute-title"></h2>
+
+            <section class="minute-block minute-speech">
+              <div class="minute-block-title"><span>01</span><h3>À dire pendant cette minute</h3></div>
+              <div id="minute-script"></div>
+            </section>
+
+            <div class="minute-learning-grid">
+              <section class="minute-block">
+                <div class="minute-block-title"><span>02</span><h3>Points clés</h3></div>
+                <ul id="minute-points"></ul>
+              </section>
+              <section class="minute-block">
+                <div class="minute-block-title"><span>03</span><h3>Définitions & détails</h3></div>
+                <dl id="minute-definitions"></dl>
+              </section>
+            </div>
+
+            <section class="minute-block minute-rncp">
+              <div class="minute-block-title"><span>04</span><h3>Référentiel RNCP37680</h3></div>
+              <div id="minute-competencies"></div>
+            </section>
+
+            <section class="minute-transition">
+              <strong>Repère de transition</strong>
+              <p id="minute-transition"></p>
+            </section>
+
+            <section class="minute-trap">
+              <strong>Piège jury à éviter</strong>
+              <div id="minute-traps"></div>
+            </section>
+          </div>
+
+          <aside class="minute-slides" id="minute-slides" aria-label="Slides associées à cette minute"></aside>
+        </article>
+
+        <div class="chrono-actions">
+          <button class="button ghost" id="chrono-prev" type="button">← Minute précédente</button>
+          <div class="chrono-mastery-actions">
+            <button class="mastery retry" id="chrono-retry" type="button">À revoir</button>
+            <button class="mastery mastered" id="chrono-mastered" type="button">Maîtrisée</button>
+          </div>
+          <button class="button primary" id="chrono-next" type="button">Minute suivante →</button>
+        </div>
+        <p class="chrono-shortcuts">Sur ordinateur : ← et → changent de minute · Espace lance ou met en pause le chrono.</p>
+      </section>
+
       <section class="view" id="view-oral" aria-labelledby="oral-title">
         <div class="section-header compact"><div><p class="eyebrow">SIMULATION JURY</p><h1 id="oral-title">Oral blanc</h1><p class="section-intro">Réponds pendant 60 à 90 secondes, révèle ensuite la réponse attendue et compare.</p></div><button class="button small ghost" id="oral-new">Nouvelle question</button></div>
         <div class="oral-layout"><article class="oral-card panel"><div class="question-meta"><span id="oral-tag">ARCHITECTURE</span><span id="oral-count">Question 1 / 20</span></div><h2 id="oral-question"></h2><div class="oral-prompt"><span>⏱</span><p>Prends une respiration. Structure : <strong>constat → mesure → preuve → limite → amélioration</strong>.</p></div><button class="button primary" id="oral-reveal">Révéler la réponse attendue <span>↓</span></button><div class="oral-answer" id="oral-answer" hidden></div><div class="oral-eval" id="oral-eval" hidden><span>Auto-évaluation :</span><button class="mastery retry" data-oral-score="retry">À retravailler</button><button class="mastery mastered" data-oral-score="mastered">Je maîtrise</button></div></article><aside class="panel oral-score"><p class="eyebrow">TON ENTRAÎNEMENT</p><div class="oral-ring"><strong id="oral-mastered-count">0</strong><span>maîtrisées</span></div><p class="muted">Le but n'est pas de réciter. Le jury évalue ta capacité à justifier, nuancer et proposer.</p></aside></div>
@@ -120,7 +204,8 @@
 
     <footer><span>DataForge Industries · préparation AIS</span><span>Contenu de révision · aucun secret ni identifiant réel</span></footer>
   </div>
-  <script src="content.js?v=4"></script>
-  <script src="app.js?v=4"></script>
+  <script src="content.js?v=5"></script>
+  <script src="minute-cards.js?v=5"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
