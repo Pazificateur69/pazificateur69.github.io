@@ -9,7 +9,7 @@ Site statique sans dépendance externe : `index.html`, `styles.css`, `dark.css`,
 - 62 flashcards avec suivi local de la maîtrise ;
 - mode oral blanc avec 30 questions, réponses modèles et auto-évaluation ;
 - mode « revoir mes erreurs » et progression sauvegardée dans le navigateur ;
-- affichage responsive téléphone/ordinateur.
+- affichage responsive et tactile, validé de 320 à 430 px sur téléphone ainsi que sur ordinateur.
 
 Le site ne contient ni identifiant, ni mot de passe, ni clé, ni adresse personnelle. Les éléments de révision sont synthétisés à partir du projet ; les distinctions entre cible, preuve disponible et expérience NetStrategy sont volontairement conservées.
 

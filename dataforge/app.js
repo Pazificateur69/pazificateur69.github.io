@@ -1,4 +1,3 @@
-const { sheets, qcm, flashcards, oralQuestions } = window.DATAFORGE_CONTENT;
 const $ = (id) => document.getElementById(id);
 const storageKey = "dataforge-revision-state-v2";
 let state;
