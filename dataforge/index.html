@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Révision interactive RNCP 37680 AIS — projet DataForge Industries">
   <title>DataForge · Révisions RNCP 37680</title>
-  <link rel="stylesheet" href="styles.css?v=3">
-  <link rel="stylesheet" href="dark.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="dark.css?v=4">
 </head>
 <body>
   <div class="app-shell">
@@ -92,8 +92,24 @@
       </section>
 
       <section class="view" id="view-flashcards" aria-labelledby="flash-title">
-        <div class="section-header compact"><div><p class="eyebrow">MÉMORISATION ACTIVE</p><h1 id="flash-title">Flashcards</h1><p class="section-intro">Retourne la carte, réponds à voix haute, puis évalue ta maîtrise.</p></div><div class="flash-counter" id="flash-counter">1 / 40</div></div>
-        <div class="flash-layout"><div class="flashcard-wrap"><button class="flashcard" id="flashcard" aria-label="Retourner la flashcard"><span class="flash-front" id="flash-front"></span><span class="flash-back" id="flash-back"></span><small class="flip-label">CLIQUER POUR RETOURNER</small></button><div class="flash-actions"><button class="button ghost" id="flash-prev">← Précédente</button><button class="button primary" id="flash-next">Suivante →</button></div><div class="mastery-actions"><button class="mastery retry" id="flash-retry">À revoir</button><button class="mastery mastered" id="flash-mastered">Maîtrisée</button></div></div><aside class="panel flash-guide"><p class="eyebrow">TECHNIQUE</p><h2>La réponse en 20 secondes</h2><ol><li>Définis l'outil ou le concept.</li><li>Donne un exemple DataForge.</li><li>Cite une limite.</li><li>Propose une amélioration production.</li></ol><p class="muted">Les cartes sont mélangées à chaque nouvelle session.</p></aside></div>
+        <div class="section-header compact"><div><p class="eyebrow">MÉMORISATION ACTIVE · NIVEAU JURY</p><h1 id="flash-title">Flashcards approfondies</h1><p class="section-intro">Explique d'abord avec tes mots. Le verso développe ensuite le concept, son fonctionnement, sa preuve dans DataForge et le piège à éviter.</p></div><div class="flash-counter" id="flash-counter">1 / 62</div></div>
+        <div class="flash-layout">
+          <div class="flashcard-wrap">
+            <article class="flashcard" id="flashcard" aria-live="polite">
+              <div class="flash-face flash-front" id="flash-front">
+                <span class="flash-category" id="flash-category"></span>
+                <p class="flash-term" id="flash-term"></p>
+                <h2 id="flash-question"></h2>
+                <p class="flash-think">Réponds à voix haute avant de révéler le mini-cours.</p>
+              </div>
+              <div class="flash-face flash-back" id="flash-back" hidden></div>
+              <button class="flip-control" id="flash-flip" type="button" aria-expanded="false">Voir la réponse développée <span>↓</span></button>
+            </article>
+            <div class="flash-actions"><button class="button ghost" id="flash-prev">← Précédente</button><button class="button primary" id="flash-next">Suivante →</button></div>
+            <div class="mastery-actions"><button class="mastery retry" id="flash-retry">À revoir</button><button class="mastery mastered" id="flash-mastered">Maîtrisée</button></div>
+          </div>
+          <aside class="panel flash-guide"><p class="eyebrow">MÉTHODE</p><h2>Construis ta réponse</h2><ol><li><strong>Définis</strong> simplement le concept.</li><li><strong>Explique</strong> son fonctionnement.</li><li><strong>Applique</strong>-le à DataForge.</li><li><strong>Prouve</strong> avec un flux, un test ou un chiffre.</li><li><strong>Nuance</strong> avec une limite.</li></ol><p class="muted">Une bonne réponse dure 45 à 90 secondes. Les cartes sont mélangées à chaque session.</p></aside>
+        </div>
       </section>
 
       <section class="view" id="view-oral" aria-labelledby="oral-title">
@@ -104,7 +120,7 @@
 
     <footer><span>DataForge Industries · préparation AIS</span><span>Contenu de révision · aucun secret ni identifiant réel</span></footer>
   </div>
-  <script src="content.js?v=3"></script>
-  <script src="app.js?v=3"></script>
+  <script src="content.js?v=4"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>

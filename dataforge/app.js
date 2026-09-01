@@ -176,16 +176,36 @@ document.addEventListener("keydown", (event) => {
 
 function renderFlash() {
   const index = flashOrder[flashIndex];
+  const item = flashcards[index];
   $("flash-counter").textContent = `${flashIndex + 1} / ${flashcards.length}`;
-  $("flash-front").textContent = flashcards[index][0];
-  $("flash-back").textContent = flashcards[index][1];
+  $("flash-category").textContent = item.category;
+  $("flash-term").textContent = item.term;
+  $("flash-question").textContent = item.question;
+  $("flash-back").innerHTML = `
+    <div class="flash-back-header"><span>${item.category}</span><h2>${item.term}</h2></div>
+    <div class="flash-lesson"><section><h3>Définition</h3><p>${item.definition}</p></section>
+    <section><h3>Comment ça fonctionne</h3><p>${item.mechanism}</p></section>
+    <section><h3>Dans DataForge</h3><p>${item.dataforge}</p></section>
+    <section class="flash-oral"><h3>Phrase prête pour le jury</h3><p>« ${item.oral} »</p></section>
+    <section class="flash-trap"><h3>Limite ou piège</h3><p>${item.trap}</p></section></div>`;
   $("flashcard").classList.remove("flipped");
+  $("flash-front").hidden = false;
+  $("flash-back").hidden = true;
+  $("flash-back").scrollTop = 0;
+  $("flash-flip").setAttribute("aria-expanded", "false");
+  $("flash-flip").innerHTML = "Voir la réponse développée <span>↓</span>";
 }
 function moveFlash(delta) {
   flashIndex = (flashIndex + delta + flashcards.length) % flashcards.length;
   renderFlash();
 }
-$("flashcard").addEventListener("click", () => $("flashcard").classList.toggle("flipped"));
+$("flash-flip").addEventListener("click", () => {
+  const flipped = $("flashcard").classList.toggle("flipped");
+  $("flash-front").hidden = flipped;
+  $("flash-back").hidden = !flipped;
+  $("flash-flip").setAttribute("aria-expanded", String(flipped));
+  $("flash-flip").innerHTML = flipped ? "Revoir la question <span>↑</span>" : "Voir la réponse développée <span>↓</span>";
+});
 $("flash-prev").addEventListener("click", () => moveFlash(-1));
 $("flash-next").addEventListener("click", () => moveFlash(1));
 $("flash-retry").addEventListener("click", () => { state.flashMastered[flashOrder[flashIndex]] = false; save(); moveFlash(1); });
