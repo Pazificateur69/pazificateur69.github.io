@@ -1,122 +1,220 @@
-const sheets = [
-  {id:'architecture',index:'01',icon:'⌘',accent:'#2563eb',title:'Architecture',summary:'Les 7 VMs, le réseau WireGuard, la topologie hub-and-spoke et le placement Oracle Cloud / VirtualBox.',sections:[['À savoir','La cible comporte VM1 gateway/bastion, VM2 Docker, VM3 supervision, VM4 SOC/SIEM, VM5 OpenLDAP, VM6 Active Directory et VM7 poste Windows.'],['Chiffres à citer','WireGuard 10.8.0.0/24 · UDP 51820 · VM1 hub · VCN Oracle 10.0.0.0/16 · VM1 et VM3 côté Oracle Cloud.'],['Limite à reconnaître','VM1 est un point central : sa panne interrompt le VPN et les accès. En production : redondance, bascule et segmentation réseau industrielle.']]},
-  {id:'ebios',index:'02',icon:'◈',accent:'#f59e0b',title:'EBIOS Risk Manager',summary:'Valeurs métier, biens supports, 6 événements redoutés, 8 scénarios et risques résiduels.',sections:[['À savoir','Six événements redoutés sont retenus, dont trois critiques : fuite de données, compromission AD et compromission OpenLDAP.'],['Sources de risque','Cybercriminel/ransomware · attaquant opportuniste · espionnage industriel/compétiteur · employé malveillant ou négligent.'],['À l’oral','Un risque résiduel modéré n’est pas un risque nul : il est documenté, accepté pour la maquette et doit être réduit par des contrôles de production.']]},
-  {id:'zerotrust',index:'03',icon:'◌',accent:'#7c3aed',title:'Zero Trust',summary:'Vérifier toujours, moindre privilège, micro-segmentation, supposer la compromission et journaliser.',sections:[['Implémentation','Clés SSH + TOTP sur le bastion, SSSD/LDAP, Kerberos/GPO, groupes de sécurité, comptes de service non interactifs.'],['Segmentation','Hub WireGuard, DROP par défaut, réseaux Docker frontend/backend, PostgreSQL non exposé, sous-réseaux Oracle public/privé.'],['Phrase jury','Le Zero Trust n’est pas un produit : c’est une manière de concevoir les accès, les privilèges et la preuve.']]},
-  {id:'identity',index:'04',icon:'◎',accent:'#0ea5e9',title:'Identité hybride',summary:'OpenLDAP côté Linux et Active Directory côté Windows, avec un modèle de groupes cohérent.',sections:[['Paramètres','LDAP : dc=dataforge,dc=lab · AD : dataforge.lab · 19 utilisateurs métier · 5 comptes de service · 8 groupes de sécurité.'],['Intégration','Linux via SSSD/LDAP ; Windows via AD, DNS, Kerberos et GPO. Les OUs et groupes sont conçus pour garder une logique commune.'],['Risques','Désynchronisation, doublons, droits divergents ; compromission du DC avec effet domino. MFA non généralisé : le TOTP est prioritaire sur VM1.']]},
-  {id:'hardening',index:'05',icon:'▣',accent:'#dc2626',title:'Sécurisation',summary:'Hardening SSH, nftables, Fail2ban, Docker, Lynis, headers web et principes DICAP.',sections:[['Mesures','ED25519 · root SSH interdit · mot de passe désactivé · MaxAuthTries 3 · nftables DROP INPUT/FORWARD · 4 jails Fail2ban.'],['Docker','Réseaux isolés frontend/backend, PostgreSQL non exposé, Adminer limité au VPN, no-new-privileges, rotation des logs et healthchecks.'],['Scores','Lynis : VM1 70 · VM2 72 · VM4 72 · VM5 71. ModSecurity/OWASP CRS est documenté chez NetStrategy, pas à attribuer à DataForge sans preuve.']]},
-  {id:'soc',index:'06',icon:'⌁',accent:'#16a34a',title:'SOC / SIEM',summary:'Wazuh 4.7.5, 7 agents cibles, FIM, auditd, Suricata, Active Response et événements Windows.',sections:[['Chaîne de détection','Suricata IDS 6.0.4 + règles ET Open → EVE JSON → Wazuh. Wazuh corrèle les événements hôte, FIM et auditd.'],['Règles','7 règles custom 100001–100007 : brute force SSH, scan, sudo, fichiers sensibles, root login, conteneur hors horaires, ClamAV.'],['Nuance','Suricata est présenté comme IDS, pas comme IPS inline. Wazuh apporte visibilité et réponse, mais demande du tuning et du dimensionnement.']]},
-  {id:'monitoring',index:'07',icon:'◒',accent:'#0891b2',title:'Supervision',summary:'Prometheus en pull, exporters Linux/Windows, dashboards Grafana et alertes Alertmanager.',sections:[['Architecture','node_exporter sur 5 Linux, windows_exporter sur VM6/VM7, scrapes toutes les 15 secondes selon les cibles.'],['Rôles','Prometheus collecte, Grafana visualise, Alertmanager groupe/déduplique/notifie. Blackbox peut tester HTTP, TCP et TLS.'],['Limite','Prometheus est orienté métriques : il ne remplace ni Wazuh ni une plateforme complète de gestion des logs.']]},
-  {id:'pca',index:'08',icon:'↻',accent:'#f97316',title:'PCA / PRA',summary:'RTO inférieur à 4 h, RPO inférieur à 24 h, sauvegardes automatisées et tests de restauration.',sections:[['Sauvegardes','PostgreSQL dump quotidien · OpenLDAP slapcat LDIF · AD System State + LDIFDE · configuration critique VM1 répliquée cloud/Git.'],['Preuve','Une sauvegarde présente n’est pas une restauration réussie : restaurer en environnement isolé, contrôler les données et mesurer le temps.'],['Limites','Approche 3-2-1 partielle, SPOF VM1 et redondance de domaine à renforcer en production.']]},
-  {id:'choices',index:'09',icon:'◇',accent:'#4f46e5',title:'Choix technologiques',summary:'Justifier chaque solution par le besoin, le contexte de maquette, les alternatives et les limites.',sections:[['Choix clés','WireGuard, nftables, Wazuh, Suricata, Prometheus/Grafana, OpenLDAP, AD, Docker, PostgreSQL, Oracle Cloud, VirtualBox, Lynis.'],['Réponses comparatives','VirtualBox est portable et accessible pour une maquette ; Proxmox/VMware sont plus adaptés à la HA. OpenLDAP est léger ; FreeIPA est plus intégré Linux.'],['Règle','Ne jamais dire « meilleur outil » sans contexte : dire « cohérent avec le périmètre, le budget, les compétences et le niveau de preuve ».']]},
-  {id:'professional',index:'10',icon:'▤',accent:'#9333ea',title:'Dossier professionnel',summary:'NetStrategy, compétences CP1 à CP10 et capacité à transposer une expérience vers le titre.',sections:[['Expériences','NetStrategy : durcissement serveur, Proxmox, OPNsense, Centreon, Ansible, audits applicatifs, CI/CD et WAF/CrowdSec.'],['RNCP','Relier chaque expérience à une compétence CP1–CP10 avec contexte, action personnelle, outil, résultat et recul.'],['Vigilance','Alertis n’apparaît pas dans le DP fourni : ne pas inventer de mission. ModSecurity/CRS relève de NetStrategy.']]},
-  {id:'traps',index:'11',icon:'!',accent:'#e11d48',title:'Questions pièges',summary:'30 questions difficiles sur les limites, les outils, les coûts, les choix et l’industrialisation.',sections:[['Méthode','Répondre : « oui/non » d’abord, justification technique ensuite, limite enfin, puis amélioration production.'],['Pièges fréquents','Pourquoi pas VLAN ? Pourquoi pas FreeIPA ? Pourquoi pas Proxmox ? MFA partout ? 34 000 €/an ? Maquette contre production ?'],['Posture','Une limite assumée démontre la maturité. Le jury attend une analyse, pas une défense inconditionnelle de chaque choix.']]},
-  {id:'pitch',index:'12',icon:'▱',accent:'#0284c7',title:'Pitch oral',summary:'Structure de présentation : contexte, besoin, architecture, sécurité, identité, risques, tests et conclusion.',sections:[['Fil conducteur','Besoin industriel → architecture 7 VMs → contrôles Zero Trust → SOC/supervision → identité hybride → EBIOS → tests → limites.'],['Preuves','Insérer les pages du dossier dans les slides : architecture pp. 21–36, sécurité pp. 37–42, supervision pp. 43–45, SOC pp. 46–54.'],['Conseil','Prendre ton temps, parler plus fort, varier l’intonation, faire quelques gestes et remplacer le tic « tac » par une pause.']]}
-];
-
-const qcm = [
-  ['Quelle est la durée officielle de la présentation du projet ?',['15 minutes','20 minutes','40 minutes','1 heure'],2,'Modalités','La présentation du projet est prévue pour 40 minutes.'],
-  ['Quel est le déroulé officiel complet du titre AIS ?',['15 min projet, 15 min technique, 20 min DP','40 min projet, 1 h technique, 30 min questionnaire, 20 min final','20 min projet et 20 min questions','1 h projet et 30 min DP'],1,'Modalités','Le parcours comprend présentation du projet, entretien technique, questionnaire et entretien final.'],
-  ['Quel est le rôle de VM1 ?',['Base PostgreSQL','Gateway WireGuard, bastion SSH et point d’entrée contrôlé','Contrôleur de domaine Windows','Serveur Grafana'],1,'Architecture','VM1 centralise le VPN, le bastion et le contrôle des accès.'],
-  ['Quelle VM héberge principalement l’application conteneurisée ?',['VM1','VM2','VM4','VM7'],1,'Architecture','VM2 porte Docker, Nginx, l’application et PostgreSQL.'],
-  ['Quelle VM porte la supervision ?',['VM3 avec Prometheus, Grafana et Alertmanager','VM4 avec Wazuh uniquement','VM5 avec OpenLDAP','VM6 avec Active Directory'],0,'Architecture','VM3 regroupe les briques de supervision.'],
-  ['Quel est le rôle principal de VM4 ?',['Wazuh et Suricata','AD, DNS et Kerberos','PostgreSQL','Poste utilisateur Windows'],0,'Architecture','VM4 héberge le SOC/SIEM et l’IDS réseau.'],
-  ['Quel est le rôle de VM5 ?',['OpenLDAP et authentification Linux','AD, DNS et GPO','Grafana et Alertmanager','Nginx et Docker'],0,'Architecture','VM5 fournit l’annuaire LDAP Linux.'],
-  ['Quelles sont les fonctions principales de VM6 ?',['OpenLDAP et SSSD','AD, DNS, Kerberos et GPO','Suricata et auditd','Bastion et VPN'],1,'Architecture','VM6 est le serveur Windows de domaine.'],
-  ['Quelle adresse appartient au réseau WireGuard ?',['192.168.1.0/24','10.0.0.0/16','10.8.0.0/24','172.16.0.0/12'],2,'Réseau','10.0.0.0/16 est la VCN Oracle ; le tunnel utilise 10.8.0.0/24.'],
-  ['Dans la topologie hub-and-spoke, quel équipement est le hub ?',['VM1','VM2','VM4','VM6'],0,'Réseau','VM1 est le point central des pairs WireGuard.'],
-  ['Quel est l’intérêt du hub-and-spoke ?',['Exposer les postes à Internet','Faire passer les flux inter-VM par un point contrôlable','Supprimer les journaux','Remplacer AD'],1,'Réseau','Le point central facilite filtrage, administration et journalisation.'],
-  ['Quel port UDP est utilisé par WireGuard ?',['22','443','51820','8080'],2,'Réseau','WireGuard écoute sur UDP 51820 dans la cible DataForge.'],
-  ['Quelle affirmation décrit correctement le placement cloud ?',['Toutes les VMs sont dans Oracle','VM1/VM3 côté Oracle et le reste virtualisé avec VirtualBox dans la cible','Toutes chez OVH','VM6/VM7 dans Azure AD'],1,'Architecture','L’architecture cible est hybride Oracle Cloud + VirtualBox.'],
-  ['Pourquoi VM3 doit-elle rester restreinte ?',['Grafana remplace le pare-feu','Elle est privée et atteinte via un chemin contrôlé','Prometheus ne fonctionne qu’en local','Oracle interdit SSH'],1,'Architecture','La supervision est une cible sensible et se trouve dans le chemin privé.'],
-  ['À quoi servent les AllowedIPs en /32 ?',['Autoriser tout Internet','Déclarer précisément les adresses accessibles par un pair','Désactiver le chiffrement','Remplacer les clés publiques'],1,'Réseau','Les /32 réduisent les routes et l’exposition de chaque pair.'],
-  ['Combien d’événements redoutés sont retenus ?',['3','5','6','8'],2,'EBIOS','Le PFE retient six événements redoutés.'],
-  ['Combien sont classés critiques ?',['1','2','3','6'],2,'EBIOS','Les trois critiques concernent notamment fuite de données et compromissions d’annuaires.'],
-  ['Lequel est un événement redouté critique ?',['Perte de confort admin','Compromission d’OpenLDAP','Retard d’un dashboard','Coût de VirtualBox'],1,'EBIOS','La compromission d’un annuaire d’identité a un impact majeur.'],
-  ['Quel ensemble correspond aux sources de risque ?',['Cybercriminel, opportuniste, espionnage, employé','Météo, client, fournisseur uniquement','Wazuh, Suricata, Grafana','DNS, DHCP, NTP'],0,'EBIOS','Ce sont les quatre familles de sources de risque retenues.'],
-  ['Quel scénario a un résiduel faible ?',['Exfiltration sensible','Compromission privilégiée AD','Brute force de la gateway','Ransomware généralisé'],2,'EBIOS','Les contrôles du bastion et Fail2ban réduisent fortement ce scénario.'],
-  ['Pourquoi certains risques restent-ils modérés ?',['Aucune mesure','Les contrôles ne suppriment pas toutes les menaces, surtout en maquette','Le SIEM les ignore','Ils n’ont pas été analysés'],1,'EBIOS','La réduction du risque doit être distinguée de son élimination.'],
-  ['Quel principe signifie qu’il ne faut pas de confiance implicite ?',['Vérifier explicitement','Supposer la compromission','Chiffrer les sauvegardes','Utiliser VirtualBox'],0,'Zero Trust','Chaque accès doit être authentifié et autorisé selon son contexte.'],
-  ['Quelle mesure illustre le moindre privilège ?',['Exposer PostgreSQL','Comptes de service sans shell et droits limités','Sudo pour tous','Tous les ports ouverts'],1,'Zero Trust','Les comptes et flux ne reçoivent que les droits nécessaires.'],
-  ['Quelle mesure illustre la micro-segmentation Docker ?',['Un seul réseau ouvert','Réseaux frontend/backend isolés, PostgreSQL non exposé','Mot de passe commun','Arrêt de la supervision'],1,'Zero Trust','Les réseaux limitent les communications inutiles entre composants.'],
-  ['Quel mécanisme matérialise « supposer la compromission » ?',['Ne garder aucun journal','FIM, auditd, Suricata, ClamAV et Active Response','Désactiver les mises à jour','Faire confiance au LAN'],1,'Zero Trust','La détection et le confinement sont prévus même après une compromission.'],
-  ['Quel est le suffixe LDAP du projet ?',['dc=dataforge,dc=local','dc=dataforge,dc=lab','dataforge.local','cn=dataforge,cn=lab'],1,'Identité','Le suffixe canonique est dc=dataforge,dc=lab.'],
-  ['Quel est le nom du domaine Active Directory ?',['dataforge.lab','dataforge.localhost','dataforge.cloud','dc=dataforge,dc=lab'],0,'Identité','AD utilise dataforge.lab ; la notation LDAP est différente.'],
-  ['Quel composant intègre Linux à OpenLDAP ?',['SSSD','GPO','Kerberos uniquement','Grafana'],0,'Identité','SSSD assure l’interrogation et l’intégration des identités LDAP.'],
-  ['Quel protocole est central dans l’authentification Windows au domaine ?',['Kerberos','slapd uniquement','node_exporter','Fail2ban'],0,'Identité','Kerberos fournit l’authentification de domaine Windows.'],
-  ['Combien d’utilisateurs métier sont prévus ?',['8','19','24','120 administrateurs'],1,'Identité','Le dossier prévoit 19 utilisateurs et distingue 5 comptes de service.'],
-  ['Pourquoi conserver deux annuaires ?',['Multiplier les mots de passe','Répondre aux besoins Linux/Windows et démontrer l’hybridation','AD ne gère pas les utilisateurs','LDAP remplace les GPO'],1,'Identité','Les écosystèmes sont différents, avec un enjeu de cohérence des droits.'],
-  ['Quel risque est spécifique à une identité hybride ?',['Désynchronisation et divergence de droits','Impossible de journaliser','Disparition de PostgreSQL','Suppression de WireGuard'],0,'Identité','Deux sources d’identité imposent une gouvernance stricte.'],
-  ['Quelle réponse est honnête sur le MFA ?',['Oui partout sans preuve','TOTP sur VM1 ; pas de MFA généralisé dans la maquette','MFA inutile en LAN','WireGuard est un MFA'],1,'Identité','Il faut reconnaître le périmètre réel et l’axe de production.'],
-  ['Quel socle décrit le hardening SSH ?',['Root autorisé et mot de passe actif','ED25519, root interdit, mot de passe désactivé, tentatives limitées','Telnet et secret commun','SSH ouvert à tous'],1,'Sécurisation','Le bastion applique une réduction claire de la surface SSH.'],
-  ['Quelle est la politique par défaut de nftables sur VM1 ?',['ACCEPT','DROP pour INPUT et FORWARD','REJECT uniquement OUTPUT','Aucune'],1,'Sécurisation','Le principe est un refus par défaut avec ouvertures minimales.'],
-  ['Combien de jails Fail2ban sont prévues sur VM1 ?',['2','3','4','13'],2,'Sécurisation','sshd, nginx-http-auth, nginx-limit-req et nginx-botsearch.'],
-  ['Lequel ne doit pas être présenté comme déployé dans DataForge sans preuve ?',['Wazuh','Suricata','ModSecurity/OWASP CRS','Prometheus'],2,'Périmètre','ModSecurity/CRS est documenté dans la mission NetStrategy.'],
-  ['Pourquoi PostgreSQL n’est-il pas exposé publiquement ?',['Il ne fonctionne pas avec Docker','Il doit être joignable uniquement par les flux nécessaires','Il ne chiffre jamais','Grafana l’interdit'],1,'Sécurisation','La donnée reste derrière le backend et les contrôles réseau.'],
-  ['Que permet un réseau Docker internal ?',['Bloquer tous les conteneurs','Limiter l’accès externe au réseau concerné','Activer le MFA','Remplacer nftables'],1,'Conteneurs','Il réduit l’exposition des réseaux backend.'],
-  ['Quels scores Lynis sont documentés pour VM1, VM2, VM4, VM5 ?',['70, 72, 72, 71','74, 74, 74, 74','67, 77, 75, 80','90 partout'],0,'Audit','Les quatre scores documentés sont 70, 72, 72 et 71.'],
-  ['Que signifie DICAP dans la présentation ?',['Disponibilité, Intégrité, Confidentialité, Auditabilité, Pérennité','Docker, IDS, Cloud, AD, Prometheus','Détection, Isolation, Chiffrement, Accès, Pare-feu','Domaine, Infra, Cloud, Admin, Prod'],0,'Sécurité','DICAP résume les dimensions de protection à garder en tête.'],
-  ['Quel est le rôle de Wazuh ?',['SIEM/HIDS : collecte, analyse, FIM et réponse','Hyperviseur','Annuaire Windows','Load balancer uniquement'],0,'SOC','Wazuh apporte collecte, corrélation et réponse active.'],
-  ['Quel est le rôle de Suricata ?',['IDS réseau avec règles ET Open et EVE JSON','IPS inline garanti','Sauvegarde PostgreSQL','Gestionnaire LDAP'],0,'SOC','La cible décrit Suricata comme IDS réseau.'],
-  ['Quelle nuance apporter sur Suricata ?',['IDS, pas IPS inline démontré','Aucun journal','Remplace Wazuh','Windows uniquement'],0,'SOC','Ne pas revendiquer un blocage inline qui n’est pas prouvé.'],
-  ['Quels événements Windows sont surveillés ?',['4624, 4625, 4768, 4719','80, 443, 22, 53','100001 à 100007','0, 1, 2, 3'],0,'SOC','Ces IDs couvrent connexions, échecs, tickets Kerberos et audit.'],
-  ['Quel est le modèle Prometheus ?',['Push de tous les logs','Pull périodique de métriques exposées','Analyse de paquets','Sauvegarde de VMs'],1,'Supervision','Prometheus interroge les endpoints des exporters.'],
-  ['Quels exporters sont utilisés ?',['node_exporter Linux et windows_exporter VM6/VM7','wazuh_exporter seulement','ldap_exporter seulement','Aucun'],0,'Supervision','Les exporters sont adaptés à l’OS des cibles.'],
-  ['Quels sont les objectifs PCA/PRA annoncés ?',['RTO < 4 h et RPO < 24 h','RTO 24 h et RPO 7 jours','RTO/RPO nuls','Aucun'],0,'PCA/PRA','Ce sont des cibles de reprise et de perte de données acceptables.'],
-  ['Quelle stratégie de sauvegarde est correcte ?',['Copie manuelle sur le poste','Dumps BDD, LDIF LDAP, System State/LDIFDE AD, config VM1 et tests','Captures Grafana','Aucune sauvegarde annuaire'],1,'PCA/PRA','Les données, identités et configurations critiques sont couvertes.']
-].map((x,i)=>({id:i+1,q:x[0],options:x[1],answer:x[2],category:x[3],explanation:x[4]}));
-
-const flashcards = [
-  ['Nom du projet ?','DataForge Industries : infrastructure IT sécurisée à identité hybride.'],['Contexte métier ?','Entreprise industrielle fictive, 120 collaborateurs, trois sites, données industrielles sensibles.'],['Nombre de VMs cible ?','Sept.'],['Réseau VPN ?','WireGuard 10.8.0.0/24, UDP 51820, VM1 comme hub.'],['VM1 ?','Gateway, bastion SSH et point de contrôle.'],['VM2 ?','Docker, Nginx, application, PostgreSQL, Adminer contrôlé.'],['VM3 ?','Prometheus, Grafana, Alertmanager et Blackbox.'],['VM4 ?','Wazuh Manager/Indexer/Dashboard et Suricata.'],['VM5 ?','OpenLDAP.'],['VM6 ?','Windows Server 2022, AD, DNS, Kerberos et GPO.'],['VM7 ?','Windows 10 Pro joint au domaine.'],['Base LDAP ?','dc=dataforge,dc=lab.'],['Domaine AD ?','dataforge.lab.'],['Identités ?','19 utilisateurs métier, 5 comptes de service et 8 groupes de sécurité.'],['Événements redoutés ?','Six, dont trois critiques.'],['Sources de risque ?','Cybercriminel, opportuniste, espionnage/compétiteur, employé malveillant ou négligent.'],['Clé SSH ?','ED25519 ; root interdit et mot de passe désactivé.'],['Firewall ?','DROP par défaut sur INPUT/FORWARD de VM1, ouvertures minimales.'],['Jails Fail2ban ?','Quatre : sshd, nginx-http-auth, nginx-limit-req, nginx-botsearch.'],['Scores Lynis ?','VM1 70, VM2 72, VM4 72, VM5 71.'],['Version Wazuh ?','4.7.5.'],['Agents Wazuh cible ?','Sept : manager local et six agents distants.'],['Règles custom ?','Sept règles, IDs 100001 à 100007.'],['Auditd ?','Neuf règles verrouillées, configuration protégée.'],['Suricata ?','IDS 6.0.4, règles ET Open, événements EVE JSON.'],['FIM ?','Surveillance d’intégrité de fichiers sensibles.'],['Prometheus ?','Collecte pull de métriques exposées par les exporters.'],['RTO/RPO ?','RTO inférieur à 4 h ; RPO inférieur à 24 h.'],['Limite majeure ?','Pas de HA complète, dépendance à VM1 et MFA non généralisé.'],['Réponse honnête ?','Distinguer ce qui est déployé/démontré de la cible d’industrialisation.'],['Pourquoi deux annuaires ?','Besoins Linux et Windows distincts, tout en montrant l’identité hybride.'],['Risque AD ?','Un DC compromis peut affecter identités, postes, GPO et services Windows.'],['Risque hybride ?','Désynchronisation, doublons et divergence de droits.'],['Prometheus vs Wazuh ?','Prometheus observe les métriques ; Wazuh analyse les événements de sécurité.'],['Suricata vs Wazuh ?','Suricata observe le réseau ; Wazuh corrèle avec les événements hôte.'],['RTO vs RPO ?','RTO = temps visé de reprise ; RPO = perte de données visée.'],['VirtualBox en prod ?','Bon choix pédagogique ; pas suffisant seul pour la HA d’une usine.'],['ModSecurity ?','Documenté chez NetStrategy, pas à attribuer au PFE DataForge sans preuve.'],['DICAP ?','Disponibilité, Intégrité, Confidentialité, Auditabilité, Pérennité.'],['Méthode jury ?','Réponse directe, preuve concrète, limite assumée, amélioration proposée.']
-];
-
-const oralQuestions = [
-  ['Architecture','Présentez DataForge Industries en 90 secondes : contexte, besoin et architecture cible.','DataForge est une entreprise industrielle fictive de 120 collaborateurs qui doit protéger des données sensibles sur trois sites. La cible comprend sept VMs : gateway/bastion, application Docker, supervision, SOC, OpenLDAP, AD et poste Windows. Le réseau WireGuard en hub-and-spoke sécurise les échanges ; la cible combine Oracle Cloud et VirtualBox.'],
-  ['Choix','Pourquoi WireGuard plutôt que des VLAN physiques ?','La maquette est hybride et ne dispose pas de commutateurs administrables ni d’un réseau industriel réel. WireGuard apporte rapidement un réseau chiffré, homogène et contrôlable. Je reconnais que cela ne remplace pas une segmentation de production et que VM1 crée une dépendance centrale.'],
-  ['Zero Trust','Comment prouvez-vous que DataForge applique Zero Trust ?','Je relie les cinq principes à des mesures : vérification explicite par clés/TOTP/LDAP/Kerberos, moindre privilège par groupes et comptes sans shell, micro-segmentation par VPN/firewall/Docker, hypothèse de compromission par Wazuh/FIM/Suricata, et journalisation continue.'],
-  ['Identité','Pourquoi deux annuaires ?','OpenLDAP répond à l’écosystème Linux via SSSD ; AD fournit Kerberos, DNS et GPO pour Windows. C’est cohérent avec une identité hybride, mais cela crée un risque de divergence des comptes et des droits qu’il faudra industrialiser par une gouvernance et une synchronisation maîtrisées.'],
-  ['MFA','Pourquoi ne pas mettre du MFA partout ?','Dans la maquette, la priorité a été le bastion VM1, où le TOTP protège l’accès d’administration. La couverture n’est pas généralisée et je ne prétends pas le contraire. En production, je rendrais le MFA obligatoire sur tous les accès privilégiés et supprimerais le mode de transition nullok.'],
-  ['SOC','Suricata bloque-t-il automatiquement l’attaque détectée ?','Pas dans la configuration présentée : Suricata est un IDS. Il produit des événements EVE JSON transmis à Wazuh, qui les corrèle avec les événements hôte. Le blocage doit venir du firewall ou d’une réponse active explicitement configurée.'],
-  ['Sécurité','Quel est l’intérêt de PostgreSQL non exposé ?','La base contient la donnée métier et n’a pas besoin d’être accessible depuis Internet. Elle est joignable par le backend ou des flux administratifs contrôlés, ce qui réduit la surface d’attaque et l’impact d’une compromission du frontend.'],
-  ['Supervision','Quelle différence entre Prometheus et Wazuh ?','Prometheus collecte des métriques de disponibilité et de performance selon un modèle pull. Wazuh collecte et corrèle des événements de sécurité, FIM et audit. Ils sont complémentaires et ne se remplacent pas.'],
-  ['PCA/PRA','Comment prouvez-vous qu’une sauvegarde est exploitable ?','Je restaure dans un environnement isolé, vérifie le code retour, les objets et les données de référence, puis teste une fonctionnalité applicative. Je mesure le délai et documente la procédure. Un fichier présent ne suffit pas à prouver un PRA.'],
-  ['Limites','Quelle est la principale faiblesse de la maquette ?','L’absence de haute disponibilité complète, notamment la dépendance à VM1, ainsi que la couverture MFA partielle et l’absence de segmentation industrielle physique. Je propose redondance, bascule, MFA généralisé, sauvegardes hors ligne et tests récurrents.'],
-  ['Production','VirtualBox est-il acceptable pour une usine ?','Pour la maquette, il est accessible, portable et reproductible. Pour la production, il ne fournit pas seul cluster, HA, live migration et gouvernance centralisée. Je privilégierais Proxmox ou VMware selon le coût, les compétences et les exigences de support.'],
-  ['Coût','Comment défendez-vous l’estimation de 34 000 € par an ?','C’est une estimation à contextualiser, pas un devis universel. Elle doit intégrer cloud, matériel ou hébergement, support, sauvegardes, exploitation, supervision et temps humain. Je présenterais les hypothèses et une fourchette avant décision.'],
-  ['Jury','Que faites-vous si vous ne connaissez pas la réponse ?','Je ne fabrique pas une configuration. Je donne ce que je sais, précise ce qui n’est pas prouvé, explique comment je vérifierais et propose une mesure de sécurisation temporaire.'],
-  ['Professionnel','Que démontre NetStrategy pour le titre ?','Des compétences d’administration, de durcissement, d’audit, de réseau, de supervision, d’automatisation et de cybersécurité. Je relie chaque exemple à mon action personnelle, au résultat et à la compétence RNCP correspondante.'],
-  ['Preuves','Pourquoi mettre les pages du dossier dans les slides ?','Pour permettre au jury de retrouver rapidement les choix, les configurations et les résultats. Je peux citer architecture pp. 21–36, sécurité pp. 37–42, supervision pp. 43–45 et SOC pp. 46–54.'],
-  ['Posture','Comment corriger le retour sur l’oral blanc ?','Je ralentis, développe les forces et faiblesses de chaque outil, parle plus fort, varie l’intonation, utilise une gestuelle sobre et remplace le tic « tac » par une pause.']
-];
-
+const { sheets, qcm, flashcards, oralQuestions } = window.DATAFORGE_CONTENT;
 const $ = (id) => document.getElementById(id);
-const storageKey = 'dataforge-revision-state-v1';
-let state = JSON.parse(localStorage.getItem(storageKey) || '{}');
-state.qcmAnswers ||= {}; state.qcmScore ||= 0; state.qcmBest ||= 0; state.flashMastered ||= {}; state.oralMastered ||= {};
-let qcmIndex = 0, qcmSelected = null, qcmAnswered = false;
-let flashIndex = 0, flashOrder = [...Array(flashcards.length).keys()].sort(()=>Math.random()-.5);
-let oralIndex = 0, oralRevealed = false;
+const storageKey = "dataforge-revision-state-v2";
+let state;
+try { state = JSON.parse(localStorage.getItem(storageKey) || "{}"); } catch { state = {}; }
+state.qcmAnswers ||= {};
+state.qcmBest ||= 0;
+state.flashMastered ||= {};
+state.oralMastered ||= {};
 
-function save(){localStorage.setItem(storageKey,JSON.stringify(state)); updateStats();}
-function updateStats(){const done=Object.keys(state.qcmAnswers).length; $('stat-progress').textContent=Math.round(done/qcm.length*100)+'%'; $('stat-best').textContent=state.qcmBest?`${state.qcmBest}/${qcm.length}`:'—'; $('qcm-best-inline').textContent=`Meilleur : ${state.qcmBest?state.qcmBest+'/'+qcm.length:'—'}`; $('oral-mastered-count').textContent=Object.values(state.oralMastered).filter(Boolean).length;}
-function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));document.querySelectorAll('.nav-link').forEach(b=>b.classList.toggle('active',b.dataset.view===name));$('main-nav').classList.remove('open');$('menu-toggle').setAttribute('aria-expanded','false');window.scrollTo({top:0,behavior:'smooth'});}
-document.querySelectorAll('[data-view]').forEach(el=>el.addEventListener('click',()=>showView(el.dataset.view)));
-$('menu-toggle').addEventListener('click',()=>{const open=$('main-nav').classList.toggle('open');$('menu-toggle').setAttribute('aria-expanded',String(open));});
+let qcmPool = [...qcm];
+let qcmIndex = 0;
+let qcmSelected = null;
+let qcmAnswered = false;
+let qcmSessionScore = 0;
+let flashIndex = 0;
+let flashOrder = [...Array(flashcards.length).keys()].sort(() => Math.random() - 0.5);
+let oralIndex = 0;
+let oralRevealed = false;
 
-function renderSheets(filter=''){const grid=$('sheet-grid');grid.innerHTML='';const needle=filter.toLowerCase();sheets.filter(s=>(s.title+' '+s.summary+' '+s.sections.flat().join(' ')).toLowerCase().includes(needle)).forEach(s=>{const card=document.createElement('article');card.className='sheet-card';card.style.setProperty('--accent',s.accent);card.innerHTML=`<div class="sheet-top"><span class="sheet-index">FICHE ${s.index}</span><span class="sheet-icon">${s.icon}</span></div><h2>${s.title}</h2><p class="sheet-summary">${s.summary}</p><button class="sheet-toggle" aria-expanded="false">Voir l'essentiel +</button><div class="sheet-detail" hidden>${s.sections.map(x=>`<div><h3>${x[0]}</h3><p>${x[1]}</p></div>`).join('')}</div>`;const toggle=card.querySelector('.sheet-toggle');toggle.addEventListener('click',()=>{const detail=card.querySelector('.sheet-detail');const open=detail.hidden;detail.hidden=!open;toggle.setAttribute('aria-expanded',String(open));toggle.textContent=open?'Réduire −':'Voir l’essentiel +';});grid.appendChild(card);});if(!grid.children.length)grid.innerHTML='<div class="panel" style="padding:24px"><strong>Aucune fiche trouvée.</strong><p class="muted">Essaie « identité », « réseau », « SOC » ou « PRA ».</p></div>';}
-$('sheet-search').addEventListener('input',e=>renderSheets(e.target.value));
+function save() {
+  localStorage.setItem(storageKey, JSON.stringify(state));
+  updateStats();
+}
 
-function renderQcm(){const item=qcm[qcmIndex];$('qcm-number').textContent=`QUESTION ${String(item.id).padStart(2,'0')}`;$('qcm-category').textContent=item.category;$('qcm-progress-label').textContent=`${item.id} / ${qcm.length}`;$('qcm-progress-bar').style.width=`${item.id/qcm.length*100}%`;$('qcm-question').textContent=item.q;const wrap=$('qcm-options');wrap.innerHTML='';qcmSelected=null;qcmAnswered=false;$('qcm-next').disabled=true;$('qcm-next').textContent=qcmIndex===qcm.length-1?'Terminer le QCM →':'Valider et continuer →';$('qcm-feedback').hidden=true;item.options.forEach((option,i)=>{const b=document.createElement('button');b.className='option';b.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}</span><span>${option}</span>`;b.addEventListener('click',()=>selectQcm(i,b));wrap.appendChild(b);});$('qcm-score').textContent=`${state.qcmScore}/${qcmIndex}`;}
-function selectQcm(i,button){if(qcmAnswered)return;qcmSelected=i;document.querySelectorAll('.option').forEach(b=>b.classList.remove('selected'));button.classList.add('selected');$('qcm-next').disabled=false;}
-function answerQcm(){if(qcmSelected===null||qcmAnswered)return;qcmAnswered=true;const item=qcm[qcmIndex],correct=qcmSelected===item.answer;if(correct)state.qcmScore++;state.qcmAnswers[item.id]=correct;document.querySelectorAll('.option').forEach((b,i)=>{if(i===item.answer)b.classList.add('correct');if(i===qcmSelected&&i!==item.answer)b.classList.add('incorrect');});const f=$('qcm-feedback');f.hidden=false;f.className=`feedback ${correct?'ok':'no'}`;f.innerHTML=`<strong>${correct?'Bonne réponse.':'À revoir.'}</strong> ${item.explanation}`;$('qcm-score').textContent=`${state.qcmScore}/${qcmIndex+1}`;save();}
-$('qcm-next').addEventListener('click',()=>{if(!qcmAnswered){answerQcm();return}if(qcmIndex<qcm.length-1){qcmIndex++;renderQcm()}else{state.qcmBest=Math.max(state.qcmBest,state.qcmScore);save();alert(`QCM terminé : ${state.qcmScore}/${qcm.length}. Recommence pour améliorer ton score.`);qcmIndex=0;state.qcmScore=0;renderQcm();}});
-$('qcm-reset').addEventListener('click',()=>{if(confirm('Réinitialiser le score et recommencer ?')){qcmIndex=0;state.qcmScore=0;state.qcmAnswers={};save();renderQcm();}});
-document.addEventListener('keydown',e=>{if(!$('view-qcm').classList.contains('active'))return;if(['1','2','3','4'].includes(e.key)){const b=document.querySelectorAll('.option')[Number(e.key)-1];if(b)b.click()}if(e.key==='Enter'&&!$('qcm-next').disabled)$('qcm-next').click();});
+function updateStats() {
+  const done = Object.keys(state.qcmAnswers).length;
+  $("stat-qcm").textContent = qcm.length;
+  $("stat-progress").textContent = Math.round(done / qcm.length * 100) + "%";
+  $("stat-best").textContent = state.qcmBest ? `${state.qcmBest}/${qcm.length}` : "—";
+  $("qcm-best-inline").textContent = `Meilleur complet : ${state.qcmBest ? state.qcmBest + "/" + qcm.length : "—"}`;
+  $("oral-mastered-count").textContent = Object.values(state.oralMastered).filter(Boolean).length;
+}
 
-function renderFlash(){const idx=flashOrder[flashIndex];$('flash-counter').textContent=`${flashIndex+1} / ${flashcards.length}`;$('flash-front').textContent=flashcards[idx][0];$('flash-back').textContent=flashcards[idx][1];$('flashcard').classList.remove('flipped');}
-function moveFlash(delta){flashIndex=(flashIndex+delta+flashcards.length)%flashcards.length;renderFlash();}
-$('flashcard').addEventListener('click',()=> $('flashcard').classList.toggle('flipped'));$('flash-prev').addEventListener('click',()=>moveFlash(-1));$('flash-next').addEventListener('click',()=>moveFlash(1));$('flash-retry').addEventListener('click',()=>{state.flashMastered[flashOrder[flashIndex]]=false;save();moveFlash(1)});$('flash-mastered').addEventListener('click',()=>{state.flashMastered[flashOrder[flashIndex]]=true;save();moveFlash(1)});
+function showView(name) {
+  document.querySelectorAll(".view").forEach((view) => view.classList.toggle("active", view.id === "view-" + name));
+  document.querySelectorAll(".nav-link").forEach((button) => button.classList.toggle("active", button.dataset.view === name));
+  $("main-nav").classList.remove("open");
+  $("menu-toggle").setAttribute("aria-expanded", "false");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
-function renderOral(){const item=oralQuestions[oralIndex];$('oral-tag').textContent=item[0];$('oral-count').textContent=`Question ${oralIndex+1} / ${oralQuestions.length}`;$('oral-question').textContent=item[1];$('oral-answer').innerHTML=`<strong>Réponse possible :</strong> ${item[2]}`;$('oral-answer').hidden=!oralRevealed;$('oral-reveal').textContent=oralRevealed?'Masquer la réponse ↑':'Révéler la réponse attendue ↓';$('oral-eval').hidden=!oralRevealed;}
-$('oral-reveal').addEventListener('click',()=>{oralRevealed=!oralRevealed;renderOral()});$('oral-new').addEventListener('click',()=>{oralIndex=(oralIndex+1)%oralQuestions.length;oralRevealed=false;renderOral()});document.querySelectorAll('[data-oral-score]').forEach(b=>b.addEventListener('click',()=>{state.oralMastered[oralIndex]=b.dataset.oralScore==='mastered';save();oralIndex=(oralIndex+1)%oralQuestions.length;oralRevealed=false;renderOral()}));
+document.querySelectorAll("[data-view]").forEach((element) => element.addEventListener("click", () => showView(element.dataset.view)));
+$("menu-toggle").addEventListener("click", () => {
+  const open = $("main-nav").classList.toggle("open");
+  $("menu-toggle").setAttribute("aria-expanded", String(open));
+});
 
-renderSheets();renderQcm();renderFlash();renderOral();updateStats();
+function renderSheets(filter = "") {
+  const grid = $("sheet-grid");
+  const needle = filter.toLowerCase().trim();
+  grid.innerHTML = "";
+  sheets.filter((sheet) => (sheet.title + " " + sheet.summary + " " + sheet.sections.flat().join(" ")).toLowerCase().includes(needle)).forEach((sheet) => {
+    const card = document.createElement("article");
+    card.className = "sheet-card";
+    card.style.setProperty("--accent", sheet.accent);
+    card.innerHTML = `<div class="sheet-top"><span class="sheet-index">FICHE ${sheet.index}</span><span class="sheet-icon">${sheet.icon}</span></div><h2>${sheet.title}</h2><p class="sheet-summary">${sheet.summary}</p><button class="sheet-toggle" aria-expanded="false">Ouvrir la fiche +</button><div class="sheet-detail" hidden>${sheet.sections.map((section) => `<div><h3>${section[0]}</h3><p>${section[1]}</p></div>`).join("")}</div>`;
+    const toggle = card.querySelector(".sheet-toggle");
+    toggle.addEventListener("click", () => {
+      const detail = card.querySelector(".sheet-detail");
+      const open = detail.hidden;
+      detail.hidden = !open;
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.textContent = open ? "Réduire la fiche −" : "Ouvrir la fiche +";
+    });
+    grid.appendChild(card);
+  });
+  if (!grid.children.length) grid.innerHTML = '<div class="panel empty-state"><strong>Aucune fiche trouvée.</strong><p class="muted">Essaie « identité », « réseau », « SOC », « code » ou « PRA ».</p></div>';
+}
+
+$("sheet-search").addEventListener("input", (event) => renderSheets(event.target.value));
+
+function populateQcmFilters() {
+  [...new Set(qcm.map((item) => item.category))].sort((a, b) => a.localeCompare(b, "fr")).forEach((category) => {
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    $("qcm-filter").appendChild(option);
+  });
+}
+
+function startQcm(pool) {
+  if (!pool.length) {
+    alert("Aucune question dans cette sélection. Termine d’abord quelques questions pour créer une liste d’erreurs.");
+    return;
+  }
+  qcmPool = [...pool];
+  qcmIndex = 0;
+  qcmSelected = null;
+  qcmAnswered = false;
+  qcmSessionScore = 0;
+  renderQcm();
+}
+
+function renderQcm() {
+  const item = qcmPool[qcmIndex];
+  $("qcm-number").textContent = `QUESTION ${String(qcmIndex + 1).padStart(2, "0")} / ${qcmPool.length}`;
+  $("qcm-difficulty").textContent = `${item.category.toUpperCase()} · ${item.competency}`;
+  $("qcm-progress-label").textContent = `${qcmIndex + 1} / ${qcmPool.length}`;
+  $("qcm-progress-bar").style.width = `${(qcmIndex + 1) / qcmPool.length * 100}%`;
+  $("qcm-question").textContent = item.q;
+  const wrap = $("qcm-options");
+  wrap.innerHTML = "";
+  qcmSelected = null;
+  qcmAnswered = false;
+  $("qcm-next").disabled = true;
+  $("qcm-next").innerHTML = "Valider ma réponse <span>→</span>";
+  $("qcm-feedback").hidden = true;
+  item.options.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.className = "option";
+    button.innerHTML = `<span class="letter">${String.fromCharCode(65 + index)}</span><span>${option}</span>`;
+    button.addEventListener("click", () => selectQcm(index, button));
+    wrap.appendChild(button);
+  });
+  $("qcm-score").textContent = `${qcmSessionScore}/${qcmIndex}`;
+}
+
+function selectQcm(index, button) {
+  if (qcmAnswered) return;
+  qcmSelected = index;
+  document.querySelectorAll(".option").forEach((option) => option.classList.remove("selected"));
+  button.classList.add("selected");
+  $("qcm-next").disabled = false;
+}
+
+function answerQcm() {
+  if (qcmSelected === null || qcmAnswered) return;
+  qcmAnswered = true;
+  const item = qcmPool[qcmIndex];
+  const correct = qcmSelected === item.answer;
+  if (correct) qcmSessionScore += 1;
+  state.qcmAnswers[item.id] = correct;
+  document.querySelectorAll(".option").forEach((option, index) => {
+    if (index === item.answer) option.classList.add("correct");
+    if (index === qcmSelected && index !== item.answer) option.classList.add("incorrect");
+  });
+  const feedback = $("qcm-feedback");
+  feedback.hidden = false;
+  feedback.className = `feedback ${correct ? "ok" : "no"}`;
+  feedback.innerHTML = `<strong>${correct ? "Bonne réponse." : "À retravailler."}</strong> ${item.explanation}<br><small>Référentiel : ${item.competency}</small>`;
+  $("qcm-score").textContent = `${qcmSessionScore}/${qcmIndex + 1}`;
+  $("qcm-next").innerHTML = qcmIndex === qcmPool.length - 1 ? "Terminer la série <span>→</span>" : "Question suivante <span>→</span>";
+  save();
+}
+
+$("qcm-next").addEventListener("click", () => {
+  if (!qcmAnswered) return answerQcm();
+  if (qcmIndex < qcmPool.length - 1) {
+    qcmIndex += 1;
+    renderQcm();
+  } else {
+    if (qcmPool.length === qcm.length) state.qcmBest = Math.max(state.qcmBest, qcmSessionScore);
+    save();
+    alert(`Série terminée : ${qcmSessionScore}/${qcmPool.length}. Utilise « Revoir mes erreurs » pour cibler les points faibles.`);
+    startQcm(qcmPool);
+  }
+});
+
+$("qcm-filter").addEventListener("change", (event) => {
+  const value = event.target.value;
+  startQcm(value === "all" ? qcm : qcm.filter((item) => item.category === value));
+});
+$("qcm-errors").addEventListener("click", () => startQcm(qcm.filter((item) => state.qcmAnswers[item.id] === false)));
+$("qcm-reset").addEventListener("click", () => {
+  if (confirm("Recommencer la série actuelle ? La liste de tes erreurs reste enregistrée.")) startQcm(qcmPool);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (!$("view-qcm").classList.contains("active")) return;
+  if (["1", "2", "3", "4"].includes(event.key)) {
+    const button = document.querySelectorAll(".option")[Number(event.key) - 1];
+    if (button) button.click();
+  }
+  if (event.key === "Enter" && !$("qcm-next").disabled) $("qcm-next").click();
+});
+
+function renderFlash() {
+  const index = flashOrder[flashIndex];
+  $("flash-counter").textContent = `${flashIndex + 1} / ${flashcards.length}`;
+  $("flash-front").textContent = flashcards[index][0];
+  $("flash-back").textContent = flashcards[index][1];
+  $("flashcard").classList.remove("flipped");
+}
+function moveFlash(delta) {
+  flashIndex = (flashIndex + delta + flashcards.length) % flashcards.length;
+  renderFlash();
+}
+$("flashcard").addEventListener("click", () => $("flashcard").classList.toggle("flipped"));
+$("flash-prev").addEventListener("click", () => moveFlash(-1));
+$("flash-next").addEventListener("click", () => moveFlash(1));
+$("flash-retry").addEventListener("click", () => { state.flashMastered[flashOrder[flashIndex]] = false; save(); moveFlash(1); });
+$("flash-mastered").addEventListener("click", () => { state.flashMastered[flashOrder[flashIndex]] = true; save(); moveFlash(1); });
+
+function renderOral() {
+  const item = oralQuestions[oralIndex];
+  $("oral-tag").textContent = item[0];
+  $("oral-count").textContent = `Question ${oralIndex + 1} / ${oralQuestions.length}`;
+  $("oral-question").textContent = item[1];
+  $("oral-answer").innerHTML = `<strong>Réponse possible :</strong> ${item[2]}`;
+  $("oral-answer").hidden = !oralRevealed;
+  $("oral-reveal").innerHTML = oralRevealed ? "Masquer la réponse <span>↑</span>" : "Révéler la réponse attendue <span>↓</span>";
+  $("oral-eval").hidden = !oralRevealed;
+}
+$("oral-reveal").addEventListener("click", () => { oralRevealed = !oralRevealed; renderOral(); });
+$("oral-new").addEventListener("click", () => { oralIndex = (oralIndex + 1) % oralQuestions.length; oralRevealed = false; renderOral(); });
+document.querySelectorAll("[data-oral-score]").forEach((button) => button.addEventListener("click", () => {
+  state.oralMastered[oralIndex] = button.dataset.oralScore === "mastered";
+  save();
+  oralIndex = (oralIndex + 1) % oralQuestions.length;
+  oralRevealed = false;
+  renderOral();
+}));
+
+populateQcmFilters();
+renderSheets();
+renderQcm();
+renderFlash();
+renderOral();
+updateStats();

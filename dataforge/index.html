@@ -45,7 +45,7 @@
 
         <div class="stats-grid">
           <article class="stat-card"><span class="stat-icon blue">▦</span><div><strong id="stat-sheets">12</strong><span>fiches interactives</span></div></article>
-          <article class="stat-card"><span class="stat-icon amber">?</span><div><strong id="stat-qcm">50</strong><span>questions QCM</span></div></article>
+          <article class="stat-card"><span class="stat-icon amber">?</span><div><strong id="stat-qcm">68</strong><span>questions niveau jury</span></div></article>
           <article class="stat-card"><span class="stat-icon violet">↻</span><div><strong id="stat-progress">0%</strong><span>progression QCM</span></div></article>
           <article class="stat-card"><span class="stat-icon green">◉</span><div><strong id="stat-best">—</strong><span>meilleur score</span></div></article>
         </div>
@@ -67,6 +67,15 @@
           </article>
         </div>
         <div class="truth-note"><span>!</span><p><strong>Réponse honnête :</strong> distingue toujours la cible finale du PFE, l'état de preuve de la maquette et les missions NetStrategy. Une limite bien expliquée vaut mieux qu'une configuration inventée.</p></div>
+        <article class="panel plan-panel">
+          <div class="panel-heading"><div><p class="eyebrow">PLAN INTENSIF · 48 H</p><h2>Apprendre par rappel actif, pas par récitation</h2></div><span class="panel-number">03</span></div>
+          <div class="plan-grid">
+            <div><strong>J-2 matin</strong><span>Architecture, flux, identité hybride et chiffres exacts.</span></div>
+            <div><strong>J-2 après-midi</strong><span>EBIOS, sécurité, SOC, supervision et PRA.</span></div>
+            <div><strong>J-1 matin</strong><span>QCM complet, correction des erreurs et questions de code.</span></div>
+            <div><strong>J-1 après-midi</strong><span>Deux répétitions chronométrées de 40 minutes.</span></div>
+          </div>
+        </article>
       </section>
 
       <section class="view" id="view-fiches" aria-labelledby="sheets-title">
@@ -75,9 +84,9 @@
       </section>
 
       <section class="view" id="view-qcm" aria-labelledby="qcm-title">
-        <div class="section-header compact"><div><p class="eyebrow">ENTRAÎNEMENT AUTOMATIQUE</p><h1 id="qcm-title">QCM DataForge</h1><p class="section-intro">Une seule réponse par question. La correction apparaît immédiatement.</p></div><div class="qcm-tools"><button class="button small ghost" id="qcm-reset">Réinitialiser</button><span class="category-pill" id="qcm-category">Architecture</span></div></div>
+        <div class="section-header compact"><div><p class="eyebrow">SCÉNARIOS NIVEAU JURY</p><h1 id="qcm-title">QCM DataForge</h1><p class="section-intro">Les réponses sont volontairement proches. Choisis la plus exacte, puis explique à voix haute pourquoi les autres sont incomplètes.</p></div><div class="qcm-tools"><label class="sr-only" for="qcm-filter">Filtrer</label><select id="qcm-filter"><option value="all">Tous les thèmes</option></select><button class="button small ghost" id="qcm-errors">Revoir mes erreurs</button><button class="button small ghost" id="qcm-reset">Recommencer</button></div></div>
         <div class="qcm-layout">
-          <aside class="qcm-sidebar panel"><div class="progress-label"><span>Progression</span><strong id="qcm-progress-label">1 / 50</strong></div><div class="progress-track"><span id="qcm-progress-bar"></span></div><div class="score-block"><span>Score actuel</span><strong id="qcm-score">0/0</strong><small id="qcm-best-inline">Meilleur : —</small></div><div class="qcm-tip"><strong>Conseil oral</strong><p>Après chaque réponse, explique à voix haute pourquoi les trois autres propositions sont moins pertinentes.</p></div></aside>
+          <aside class="qcm-sidebar panel"><div class="progress-label"><span>Progression</span><strong id="qcm-progress-label">1 / 68</strong></div><div class="progress-track"><span id="qcm-progress-bar"></span></div><div class="score-block"><span>Score actuel</span><strong id="qcm-score">0/0</strong><small id="qcm-best-inline">Meilleur : —</small></div><div class="qcm-tip"><strong>Méthode jury</strong><p>Réponse directe → justification technique → preuve du dossier → limite → amélioration production.</p></div></aside>
           <div class="qcm-card panel" id="qcm-card"><div class="question-meta"><span id="qcm-number">QUESTION 01</span><span id="qcm-difficulty">JURY</span></div><h2 id="qcm-question"></h2><div class="options" id="qcm-options"></div><div class="feedback" id="qcm-feedback" hidden></div><div class="qcm-footer"><button class="button primary" id="qcm-next" disabled>Valider et continuer <span>→</span></button><span class="keyboard-hint">Touches 1–4 pour répondre</span></div></div>
         </div>
       </section>
@@ -95,6 +104,7 @@
 
     <footer><span>DataForge Industries · préparation AIS</span><span>Contenu de révision · aucun secret ni identifiant réel</span></footer>
   </div>
+  <script src="content.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
