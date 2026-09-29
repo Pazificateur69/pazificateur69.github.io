@@ -1,0 +1,4 @@
+Contact: mailto:alessandro.gagliardi225145@gmail.com
+Expires: 2027-09-01T00:00:00.000Z
+Preferred-Languages: fr, en
+Canonical: https://pazificateur69.github.io/.well-known/security.txt
